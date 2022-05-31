@@ -34,6 +34,7 @@ include 'external-payload-storage:azureblob-storage'
 include 'external-payload-storage:postgres-external-storage'
 include 'event-queue:amqp'
 include 'event-queue:nats'
+include 'event-queue:kafka'
 include 'lock:zookeeper-lock'
 include 'task:kafka'
 
@@ -49,4 +50,3 @@ rootProject.children.stream()
                 !p.name.equals("external-payload-storage") && !p.name.equals("event-queue") &&
                 !p.name.equals("lock") && !p.name.equals("task"))
         .forEach(it -> it.name = "conductor-" + it.name)
-

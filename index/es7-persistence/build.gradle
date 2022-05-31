@@ -13,7 +13,8 @@ ext['elasticsearch.version'] = revElasticSearch7
 
 dependencies {
 
-    implementation project(':persistence:conductor-common-persistence')
+    implementation project(':contribs:persistence:common-persistence')
+
     implementation "com.netflix.conductor:conductor-common:${revConductor}"
     implementation "com.netflix.conductor:conductor-core:${revConductor}"
 
@@ -34,7 +35,7 @@ dependencies {
     testImplementation "net.java.dev.jna:jna:5.7.0"
     testImplementation "org.awaitility:awaitility:${revAwaitility}"
     testImplementation "org.testcontainers:elasticsearch:${revTestContainer}"
-    testImplementation project(':conductor-test-util').sourceSets.test.output
+    testImplementation project(':contribs:test-util').sourceSets.test.output
     testImplementation 'org.springframework.retry:spring-retry'
 
 }

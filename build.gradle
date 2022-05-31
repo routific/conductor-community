@@ -14,12 +14,12 @@ buildscript {
 }
 
 plugins {
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'io.spring.dependency-management'
     id 'java'
     id 'application'
     id 'jacoco'
-    id 'nebula.netflixoss' version '10.6.0'
-    id 'org.sonarqube' version '3.1.1'
+    id 'nebula.netflixoss'
+    id 'org.sonarqube'
 }
 
 // Establish version and status
@@ -29,7 +29,7 @@ subprojects {
     tasks.withType(Javadoc).all { enabled = false }
 }
 
-apply from: "$rootDir/dependencies.gradle"
+apply from: "./dependencies.gradle"
 
 // change the ES version used by Spring Boot Dependency Management plugin
 ext['elasticsearch.version'] = revElasticSearch7
@@ -148,17 +148,17 @@ sonarqube {
     }
 }
 
-configure(allprojects) {
+// configure(allprojects) {
 
-    apply plugin: 'com.diffplug.spotless'
+//     apply plugin: 'com.diffplug.spotless'
 
-    spotless {
-        java {
-            googleJavaFormat().aosp()
-            removeUnusedImports()
-            importOrder('java', 'javax', 'org', 'com.netflix', '', '\\#com.netflix', '\\#')
-            licenseHeaderFile("$rootDir/licenseheader.txt")
-        }
-    }
-    build.dependsOn(spotlessApply)
-}
+//     spotless {
+//         java {
+//             googleJavaFormat().aosp()
+//             removeUnusedImports()
+//             importOrder('java', 'javax', 'org', 'com.netflix', '', '\\#com.netflix', '\\#')
+//             licenseHeaderFile("./licenseheader.txt")
+//         }
+//     }
+//     build.dependsOn(spotlessApply)
+// }

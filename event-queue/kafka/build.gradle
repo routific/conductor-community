@@ -5,6 +5,8 @@ dependencies {
     implementation "org.apache.kafka:kafka-clients:${revKafka}"
 
     implementation "com.spotify:completable-futures:${revSpotifyCompletableFutures}"
+    implementation "io.reactivex:rxjava:${revRxJava}"
+    implementation "com.google.guava:guava:${revGuava}"
 
     compileOnly 'org.springframework.boot:spring-boot-starter'
     compileOnly 'org.springframework.boot:spring-boot-starter-web'
