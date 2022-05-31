@@ -8,24 +8,55 @@
         "com.fasterxml.jackson.core:jackson-annotations": {
             "locked": "2.13.2",
             "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind"
+                "com.fasterxml.jackson.core:jackson-databind",
+                "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
             ]
         },
         "com.fasterxml.jackson.core:jackson-core": {
             "locked": "2.13.2",
             "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind"
+                "com.fasterxml.jackson.core:jackson-databind",
+                "com.fasterxml.jackson.datatype:jackson-datatype-jdk8",
+                "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",
+                "com.fasterxml.jackson.module:jackson-module-parameter-names"
             ]
         },
         "com.fasterxml.jackson.core:jackson-databind": {
-            "locked": "2.13.2.1"
+            "locked": "2.13.2.1",
+            "transitive": [
+                "com.fasterxml.jackson.datatype:jackson-datatype-jdk8",
+                "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",
+                "com.fasterxml.jackson.module:jackson-module-parameter-names",
+                "org.springframework.boot:spring-boot-starter-json"
+            ]
+        },
+        "com.fasterxml.jackson.datatype:jackson-datatype-jdk8": {
+            "locked": "2.13.2",
+            "transitive": [
+                "org.springframework.boot:spring-boot-starter-json"
+            ]
+        },
+        "com.fasterxml.jackson.datatype:jackson-datatype-jsr310": {
+            "locked": "2.13.2",
+            "transitive": [
+                "org.springframework.boot:spring-boot-starter-json"
+            ]
+        },
+        "com.fasterxml.jackson.module:jackson-module-parameter-names": {
+            "locked": "2.13.2",
+            "transitive": [
+                "org.springframework.boot:spring-boot-starter-json"
+            ]
         },
         "com.fasterxml.jackson:jackson-bom": {
             "locked": "2.13.2.1",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-annotations",
                 "com.fasterxml.jackson.core:jackson-core",
-                "com.fasterxml.jackson.core:jackson-databind"
+                "com.fasterxml.jackson.core:jackson-databind",
+                "com.fasterxml.jackson.datatype:jackson-datatype-jdk8",
+                "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",
+                "com.fasterxml.jackson.module:jackson-module-parameter-names"
             ]
         },
         "com.google.code.findbugs:jsr305": {
@@ -61,29 +92,27 @@
                 "com.google.guava:guava"
             ]
         },
-        "com.netflix.conductor:common-persistence": {
-            "project": true
-        },
         "com.netflix.conductor:conductor-common": {
             "project": true
         },
         "com.netflix.conductor:conductor-core": {
             "project": true
         },
-        "com.zaxxer:HikariCP": {
-            "locked": "4.0.3",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc"
-            ]
+        "com.spotify:completable-futures": {
+            "locked": "0.3.3"
+        },
+        "io.reactivex:rxjava": {
+            "locked": "1.2.2"
         },
         "jakarta.annotation:jakarta.annotation-api": {
             "locked": "1.3.5",
             "transitive": [
-                "org.springframework.boot:spring-boot-starter"
+                "org.springframework.boot:spring-boot-starter",
+                "org.springframework.boot:spring-boot-starter-tomcat"
             ]
         },
-        "org.apache.commons:commons-lang3": {
-            "locked": "3.12.0"
+        "org.apache.kafka:kafka-clients": {
+            "locked": "3.1.0"
         },
         "org.apache.logging.log4j:log4j-api": {
             "locked": "2.17.0",
@@ -109,17 +138,30 @@
         "org.apache.logging.log4j:log4j-web": {
             "locked": "2.17.0"
         },
+        "org.apache.tomcat.embed:tomcat-embed-core": {
+            "locked": "9.0.62",
+            "transitive": [
+                "org.apache.tomcat.embed:tomcat-embed-websocket",
+                "org.springframework.boot:spring-boot-starter-tomcat"
+            ]
+        },
+        "org.apache.tomcat.embed:tomcat-embed-el": {
+            "locked": "9.0.62",
+            "transitive": [
+                "org.springframework.boot:spring-boot-starter-tomcat"
+            ]
+        },
+        "org.apache.tomcat.embed:tomcat-embed-websocket": {
+            "locked": "9.0.62",
+            "transitive": [
+                "org.springframework.boot:spring-boot-starter-tomcat"
+            ]
+        },
         "org.checkerframework:checker-qual": {
             "locked": "3.5.0",
             "transitive": [
                 "com.google.guava:guava"
             ]
-        },
-        "org.flywaydb:flyway-core": {
-            "locked": "8.0.5"
-        },
-        "org.postgresql:postgresql": {
-            "locked": "42.3.4"
         },
         "org.slf4j:jul-to-slf4j": {
             "locked": "1.7.36",
@@ -130,7 +172,6 @@
         "org.slf4j:slf4j-api": {
             "locked": "1.7.36",
             "transitive": [
-                "com.zaxxer:HikariCP",
                 "org.apache.logging.log4j:log4j-slf4j-impl",
                 "org.slf4j:jul-to-slf4j"
             ]
@@ -151,11 +192,15 @@
         "org.springframework.boot:spring-boot-starter": {
             "locked": "2.6.7",
             "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc"
+                "org.springframework.boot:spring-boot-starter-json",
+                "org.springframework.boot:spring-boot-starter-web"
             ]
         },
-        "org.springframework.boot:spring-boot-starter-jdbc": {
-            "locked": "2.6.7"
+        "org.springframework.boot:spring-boot-starter-json": {
+            "locked": "2.6.7",
+            "transitive": [
+                "org.springframework.boot:spring-boot-starter-web"
+            ]
         },
         "org.springframework.boot:spring-boot-starter-logging": {
             "locked": "2.6.7",
@@ -163,13 +208,20 @@
                 "org.springframework.boot:spring-boot-starter"
             ]
         },
-        "org.springframework.retry:spring-retry": {
-            "locked": "1.3.3"
+        "org.springframework.boot:spring-boot-starter-tomcat": {
+            "locked": "2.6.7",
+            "transitive": [
+                "org.springframework.boot:spring-boot-starter-web"
+            ]
+        },
+        "org.springframework.boot:spring-boot-starter-web": {
+            "locked": "2.6.7"
         },
         "org.springframework:spring-aop": {
             "locked": "5.3.19",
             "transitive": [
-                "org.springframework:spring-context"
+                "org.springframework:spring-context",
+                "org.springframework:spring-webmvc"
             ]
         },
         "org.springframework:spring-beans": {
@@ -177,14 +229,15 @@
             "transitive": [
                 "org.springframework:spring-aop",
                 "org.springframework:spring-context",
-                "org.springframework:spring-jdbc",
-                "org.springframework:spring-tx"
+                "org.springframework:spring-web",
+                "org.springframework:spring-webmvc"
             ]
         },
         "org.springframework:spring-context": {
             "locked": "5.3.19",
             "transitive": [
-                "org.springframework.boot:spring-boot"
+                "org.springframework.boot:spring-boot",
+                "org.springframework:spring-webmvc"
             ]
         },
         "org.springframework:spring-core": {
@@ -196,14 +249,15 @@
                 "org.springframework:spring-beans",
                 "org.springframework:spring-context",
                 "org.springframework:spring-expression",
-                "org.springframework:spring-jdbc",
-                "org.springframework:spring-tx"
+                "org.springframework:spring-web",
+                "org.springframework:spring-webmvc"
             ]
         },
         "org.springframework:spring-expression": {
             "locked": "5.3.19",
             "transitive": [
-                "org.springframework:spring-context"
+                "org.springframework:spring-context",
+                "org.springframework:spring-webmvc"
             ]
         },
         "org.springframework:spring-jcl": {
@@ -212,16 +266,18 @@
                 "org.springframework:spring-core"
             ]
         },
-        "org.springframework:spring-jdbc": {
+        "org.springframework:spring-web": {
             "locked": "5.3.19",
             "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc"
+                "org.springframework.boot:spring-boot-starter-json",
+                "org.springframework.boot:spring-boot-starter-web",
+                "org.springframework:spring-webmvc"
             ]
         },
-        "org.springframework:spring-tx": {
+        "org.springframework:spring-webmvc": {
             "locked": "5.3.19",
             "transitive": [
-                "org.springframework:spring-jdbc"
+                "org.springframework.boot:spring-boot-starter-web"
             ]
         },
         "org.yaml:snakeyaml": {
@@ -243,7 +299,6 @@
             "locked": "2.13.2",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind",
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core"
             ]
@@ -251,7 +306,6 @@
         "com.fasterxml.jackson.core:jackson-databind": {
             "locked": "2.13.2.1",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core"
             ]
@@ -268,6 +322,12 @@
             "locked": "2.9.3",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
+            ]
+        },
+        "com.github.luben:zstd-jni": {
+            "locked": "1.5.0-4",
+            "transitive": [
+                "org.apache.kafka:kafka-clients"
             ]
         },
         "com.google.code.findbugs:jsr305": {
@@ -317,9 +377,6 @@
                 "com.netflix.conductor:conductor-core"
             ]
         },
-        "com.netflix.conductor:common-persistence": {
-            "project": true
-        },
         "com.netflix.conductor:conductor-annotations": {
             "project": true,
             "transitive": [
@@ -329,15 +386,11 @@
         "com.netflix.conductor:conductor-common": {
             "project": true,
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-core"
             ]
         },
         "com.netflix.conductor:conductor-core": {
-            "project": true,
-            "transitive": [
-                "com.netflix.conductor:common-persistence"
-            ]
+            "project": true
         },
         "com.netflix.spectator:spectator-api": {
             "locked": "0.122.0",
@@ -351,12 +404,6 @@
                 "com.netflix.conductor:conductor-core"
             ]
         },
-        "com.zaxxer:HikariCP": {
-            "locked": "4.0.3",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc"
-            ]
-        },
         "commons-io:commons-io": {
             "locked": "2.7",
             "transitive": [
@@ -364,7 +411,7 @@
             ]
         },
         "io.reactivex:rxjava": {
-            "locked": "1.3.8",
+            "locked": "1.2.2",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
@@ -374,12 +421,6 @@
             "transitive": [
                 "com.netflix.conductor:conductor-core",
                 "jakarta.xml.bind:jakarta.xml.bind-api"
-            ]
-        },
-        "jakarta.annotation:jakarta.annotation-api": {
-            "locked": "1.3.5",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter"
             ]
         },
         "jakarta.xml.bind:jakarta.xml.bind-api": {
@@ -410,15 +451,16 @@
         "org.apache.commons:commons-lang3": {
             "locked": "3.12.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core"
             ]
         },
+        "org.apache.kafka:kafka-clients": {
+            "locked": "3.1.0"
+        },
         "org.apache.logging.log4j:log4j-api": {
             "locked": "2.17.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-annotations",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core",
@@ -431,7 +473,6 @@
         "org.apache.logging.log4j:log4j-core": {
             "locked": "2.17.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-annotations",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core",
@@ -442,7 +483,6 @@
         "org.apache.logging.log4j:log4j-jul": {
             "locked": "2.17.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-annotations",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core"
@@ -451,7 +491,6 @@
         "org.apache.logging.log4j:log4j-slf4j-impl": {
             "locked": "2.17.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-annotations",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core"
@@ -460,7 +499,6 @@
         "org.apache.logging.log4j:log4j-web": {
             "locked": "2.17.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-annotations",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core"
@@ -470,12 +508,14 @@
             "locked": "3.19.0",
             "transitive": [
                 "com.github.ben-manes.caffeine:caffeine",
-                "com.google.guava:guava",
-                "org.postgresql:postgresql"
+                "com.google.guava:guava"
             ]
         },
-        "org.flywaydb:flyway-core": {
-            "locked": "8.0.5"
+        "org.lz4:lz4-java": {
+            "locked": "1.8.0",
+            "transitive": [
+                "org.apache.kafka:kafka-clients"
+            ]
         },
         "org.ow2.asm:asm": {
             "locked": "9.1",
@@ -483,161 +523,23 @@
                 "net.minidev:accessors-smart"
             ]
         },
-        "org.postgresql:postgresql": {
-            "locked": "42.3.4"
-        },
-        "org.slf4j:jul-to-slf4j": {
-            "locked": "1.7.36",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter-logging"
-            ]
-        },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.36",
             "transitive": [
                 "com.jayway.jsonpath:json-path",
                 "com.netflix.spectator:spectator-api",
-                "com.zaxxer:HikariCP",
-                "org.apache.logging.log4j:log4j-slf4j-impl",
-                "org.slf4j:jul-to-slf4j"
+                "org.apache.kafka:kafka-clients",
+                "org.apache.logging.log4j:log4j-slf4j-impl"
             ]
         },
-        "org.springframework.boot:spring-boot": {
-            "locked": "2.6.7",
+        "org.xerial.snappy:snappy-java": {
+            "locked": "1.1.8.4",
             "transitive": [
-                "org.springframework.boot:spring-boot-autoconfigure",
-                "org.springframework.boot:spring-boot-starter"
-            ]
-        },
-        "org.springframework.boot:spring-boot-autoconfigure": {
-            "locked": "2.6.7",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter"
-            ]
-        },
-        "org.springframework.boot:spring-boot-starter": {
-            "locked": "2.6.7",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc"
-            ]
-        },
-        "org.springframework.boot:spring-boot-starter-jdbc": {
-            "locked": "2.6.7"
-        },
-        "org.springframework.boot:spring-boot-starter-logging": {
-            "locked": "2.6.7",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter"
-            ]
-        },
-        "org.springframework:spring-aop": {
-            "locked": "5.3.19",
-            "transitive": [
-                "org.springframework:spring-context"
-            ]
-        },
-        "org.springframework:spring-beans": {
-            "locked": "5.3.19",
-            "transitive": [
-                "org.springframework:spring-aop",
-                "org.springframework:spring-context",
-                "org.springframework:spring-jdbc",
-                "org.springframework:spring-tx"
-            ]
-        },
-        "org.springframework:spring-context": {
-            "locked": "5.3.19",
-            "transitive": [
-                "org.springframework.boot:spring-boot"
-            ]
-        },
-        "org.springframework:spring-core": {
-            "locked": "5.3.19",
-            "transitive": [
-                "org.springframework.boot:spring-boot",
-                "org.springframework.boot:spring-boot-starter",
-                "org.springframework:spring-aop",
-                "org.springframework:spring-beans",
-                "org.springframework:spring-context",
-                "org.springframework:spring-expression",
-                "org.springframework:spring-jdbc",
-                "org.springframework:spring-tx"
-            ]
-        },
-        "org.springframework:spring-expression": {
-            "locked": "5.3.19",
-            "transitive": [
-                "org.springframework:spring-context"
-            ]
-        },
-        "org.springframework:spring-jcl": {
-            "locked": "5.3.19",
-            "transitive": [
-                "org.springframework:spring-core"
-            ]
-        },
-        "org.springframework:spring-jdbc": {
-            "locked": "5.3.19",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc"
-            ]
-        },
-        "org.springframework:spring-tx": {
-            "locked": "5.3.19",
-            "transitive": [
-                "org.springframework:spring-jdbc"
-            ]
-        },
-        "org.yaml:snakeyaml": {
-            "locked": "1.29",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter"
+                "org.apache.kafka:kafka-clients"
             ]
         }
     },
     "testCompileClasspath": {
-        "com.fasterxml.jackson.core:jackson-annotations": {
-            "locked": "2.13.2",
-            "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind",
-                "com.github.docker-java:docker-java-api"
-            ]
-        },
-        "com.fasterxml.jackson.core:jackson-core": {
-            "locked": "2.13.2",
-            "transitive": [
-                "com.fasterxml.jackson.core:jackson-databind"
-            ]
-        },
-        "com.fasterxml.jackson.core:jackson-databind": {
-            "locked": "2.13.2.1"
-        },
-        "com.fasterxml.jackson:jackson-bom": {
-            "locked": "2.13.2.1",
-            "transitive": [
-                "com.fasterxml.jackson.core:jackson-annotations",
-                "com.fasterxml.jackson.core:jackson-core",
-                "com.fasterxml.jackson.core:jackson-databind"
-            ]
-        },
-        "com.github.docker-java:docker-java-api": {
-            "locked": "3.2.12",
-            "transitive": [
-                "org.testcontainers:testcontainers"
-            ]
-        },
-        "com.github.docker-java:docker-java-transport": {
-            "locked": "3.2.12",
-            "transitive": [
-                "com.github.docker-java:docker-java-transport-zerodep"
-            ]
-        },
-        "com.github.docker-java:docker-java-transport-zerodep": {
-            "locked": "3.2.12",
-            "transitive": [
-                "org.testcontainers:testcontainers"
-            ]
-        },
         "com.google.code.findbugs:jsr305": {
             "locked": "3.0.2",
             "transitive": [
@@ -677,14 +579,14 @@
                 "org.springframework.boot:spring-boot-starter-test"
             ]
         },
-        "com.netflix.conductor:common-persistence": {
-            "project": true
-        },
         "com.netflix.conductor:conductor-common": {
             "project": true
         },
         "com.netflix.conductor:conductor-core": {
             "project": true
+        },
+        "com.spotify:completable-futures": {
+            "locked": "0.3.3"
         },
         "com.vaadin.external.google:android-json": {
             "locked": "0.0.20131108.vaadin1",
@@ -692,11 +594,8 @@
                 "org.skyscreamer:jsonassert"
             ]
         },
-        "com.zaxxer:HikariCP": {
-            "locked": "4.0.3",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc"
-            ]
+        "io.reactivex:rxjava": {
+            "locked": "1.2.2"
         },
         "jakarta.activation:jakarta.activation-api": {
             "locked": "1.2.2",
@@ -717,10 +616,7 @@
             ]
         },
         "junit:junit": {
-            "locked": "4.13.2",
-            "transitive": [
-                "org.testcontainers:testcontainers"
-            ]
+            "locked": "4.13.2"
         },
         "net.bytebuddy:byte-buddy": {
             "locked": "1.11.22",
@@ -732,12 +628,6 @@
             "locked": "1.11.22",
             "transitive": [
                 "org.mockito:mockito-core"
-            ]
-        },
-        "net.java.dev.jna:jna": {
-            "locked": "5.8.0",
-            "transitive": [
-                "com.github.docker-java:docker-java-transport-zerodep"
             ]
         },
         "net.minidev:accessors-smart": {
@@ -752,14 +642,8 @@
                 "com.jayway.jsonpath:json-path"
             ]
         },
-        "org.apache.commons:commons-compress": {
-            "locked": "1.21",
-            "transitive": [
-                "org.testcontainers:testcontainers"
-            ]
-        },
-        "org.apache.commons:commons-lang3": {
-            "locked": "3.12.0"
+        "org.apache.kafka:kafka-clients": {
+            "locked": "3.1.0"
         },
         "org.apache.logging.log4j:log4j-api": {
             "locked": "2.17.0",
@@ -812,9 +696,6 @@
                 "com.google.guava:guava"
             ]
         },
-        "org.flywaydb:flyway-core": {
-            "locked": "8.0.5"
-        },
         "org.hamcrest:hamcrest": {
             "locked": "2.2",
             "transitive": [
@@ -826,12 +707,6 @@
             "locked": "2.2",
             "transitive": [
                 "junit:junit"
-            ]
-        },
-        "org.jetbrains:annotations": {
-            "locked": "17.0.0",
-            "transitive": [
-                "org.rnorth.duct-tape:duct-tape"
             ]
         },
         "org.junit.jupiter:junit-jupiter": {
@@ -893,15 +768,6 @@
                 "net.minidev:accessors-smart"
             ]
         },
-        "org.postgresql:postgresql": {
-            "locked": "42.3.4"
-        },
-        "org.rnorth.duct-tape:duct-tape": {
-            "locked": "1.0.8",
-            "transitive": [
-                "org.testcontainers:testcontainers"
-            ]
-        },
         "org.skyscreamer:jsonassert": {
             "locked": "1.5.0",
             "transitive": [
@@ -918,13 +784,9 @@
         "org.slf4j:slf4j-api": {
             "locked": "1.7.36",
             "transitive": [
-                "com.github.docker-java:docker-java-api",
-                "com.github.docker-java:docker-java-transport-zerodep",
                 "com.jayway.jsonpath:json-path",
-                "com.zaxxer:HikariCP",
                 "org.apache.logging.log4j:log4j-slf4j-impl",
-                "org.slf4j:jul-to-slf4j",
-                "org.testcontainers:testcontainers"
+                "org.slf4j:jul-to-slf4j"
             ]
         },
         "org.springframework.boot:spring-boot": {
@@ -946,12 +808,8 @@
         "org.springframework.boot:spring-boot-starter": {
             "locked": "2.6.7",
             "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc",
                 "org.springframework.boot:spring-boot-starter-test"
             ]
-        },
-        "org.springframework.boot:spring-boot-starter-jdbc": {
-            "locked": "2.6.7"
         },
         "org.springframework.boot:spring-boot-starter-log4j2": {
             "locked": "2.6.7"
@@ -988,9 +846,7 @@
             "locked": "5.3.19",
             "transitive": [
                 "org.springframework:spring-aop",
-                "org.springframework:spring-context",
-                "org.springframework:spring-jdbc",
-                "org.springframework:spring-tx"
+                "org.springframework:spring-context"
             ]
         },
         "org.springframework:spring-context": {
@@ -1009,9 +865,7 @@
                 "org.springframework:spring-beans",
                 "org.springframework:spring-context",
                 "org.springframework:spring-expression",
-                "org.springframework:spring-jdbc",
-                "org.springframework:spring-test",
-                "org.springframework:spring-tx"
+                "org.springframework:spring-test"
             ]
         },
         "org.springframework:spring-expression": {
@@ -1026,43 +880,10 @@
                 "org.springframework:spring-core"
             ]
         },
-        "org.springframework:spring-jdbc": {
-            "locked": "5.3.19",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc"
-            ]
-        },
         "org.springframework:spring-test": {
             "locked": "5.3.19",
             "transitive": [
                 "org.springframework.boot:spring-boot-starter-test"
-            ]
-        },
-        "org.springframework:spring-tx": {
-            "locked": "5.3.19",
-            "transitive": [
-                "org.springframework:spring-jdbc"
-            ]
-        },
-        "org.testcontainers:database-commons": {
-            "locked": "1.16.3",
-            "transitive": [
-                "org.testcontainers:jdbc"
-            ]
-        },
-        "org.testcontainers:jdbc": {
-            "locked": "1.16.3",
-            "transitive": [
-                "org.testcontainers:postgresql"
-            ]
-        },
-        "org.testcontainers:postgresql": {
-            "locked": "1.16.3"
-        },
-        "org.testcontainers:testcontainers": {
-            "locked": "1.16.3",
-            "transitive": [
-                "org.testcontainers:database-commons"
             ]
         },
         "org.xmlunit:xmlunit-core": {
@@ -1083,7 +904,6 @@
             "locked": "2.13.2",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind",
-                "com.github.docker-java:docker-java-api",
                 "com.netflix.conductor:conductor-core"
             ]
         },
@@ -1091,7 +911,6 @@
             "locked": "2.13.2",
             "transitive": [
                 "com.fasterxml.jackson.core:jackson-databind",
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core"
             ]
@@ -1099,7 +918,6 @@
         "com.fasterxml.jackson.core:jackson-databind": {
             "locked": "2.13.2.1",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core"
             ]
@@ -1118,22 +936,10 @@
                 "com.netflix.conductor:conductor-core"
             ]
         },
-        "com.github.docker-java:docker-java-api": {
-            "locked": "3.2.12",
+        "com.github.luben:zstd-jni": {
+            "locked": "1.5.0-4",
             "transitive": [
-                "org.testcontainers:testcontainers"
-            ]
-        },
-        "com.github.docker-java:docker-java-transport": {
-            "locked": "3.2.12",
-            "transitive": [
-                "com.github.docker-java:docker-java-transport-zerodep"
-            ]
-        },
-        "com.github.docker-java:docker-java-transport-zerodep": {
-            "locked": "3.2.12",
-            "transitive": [
-                "org.testcontainers:testcontainers"
+                "org.apache.kafka:kafka-clients"
             ]
         },
         "com.google.code.findbugs:jsr305": {
@@ -1184,9 +990,6 @@
                 "org.springframework.boot:spring-boot-starter-test"
             ]
         },
-        "com.netflix.conductor:common-persistence": {
-            "project": true
-        },
         "com.netflix.conductor:conductor-annotations": {
             "project": true,
             "transitive": [
@@ -1196,15 +999,11 @@
         "com.netflix.conductor:conductor-common": {
             "project": true,
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-core"
             ]
         },
         "com.netflix.conductor:conductor-core": {
-            "project": true,
-            "transitive": [
-                "com.netflix.conductor:common-persistence"
-            ]
+            "project": true
         },
         "com.netflix.spectator:spectator-api": {
             "locked": "0.122.0",
@@ -1224,12 +1023,6 @@
                 "org.skyscreamer:jsonassert"
             ]
         },
-        "com.zaxxer:HikariCP": {
-            "locked": "4.0.3",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc"
-            ]
-        },
         "commons-io:commons-io": {
             "locked": "2.7",
             "transitive": [
@@ -1237,7 +1030,7 @@
             ]
         },
         "io.reactivex:rxjava": {
-            "locked": "1.3.8",
+            "locked": "1.2.2",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
@@ -1263,10 +1056,7 @@
             ]
         },
         "junit:junit": {
-            "locked": "4.13.2",
-            "transitive": [
-                "org.testcontainers:testcontainers"
-            ]
+            "locked": "4.13.2"
         },
         "net.bytebuddy:byte-buddy": {
             "locked": "1.11.22",
@@ -1278,12 +1068,6 @@
             "locked": "1.11.22",
             "transitive": [
                 "org.mockito:mockito-core"
-            ]
-        },
-        "net.java.dev.jna:jna": {
-            "locked": "5.8.0",
-            "transitive": [
-                "com.github.docker-java:docker-java-transport-zerodep"
             ]
         },
         "net.minidev:accessors-smart": {
@@ -1305,24 +1089,19 @@
                 "com.netflix.conductor:conductor-core"
             ]
         },
-        "org.apache.commons:commons-compress": {
-            "locked": "1.21",
-            "transitive": [
-                "org.testcontainers:testcontainers"
-            ]
-        },
         "org.apache.commons:commons-lang3": {
             "locked": "3.12.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core"
             ]
         },
+        "org.apache.kafka:kafka-clients": {
+            "locked": "3.1.0"
+        },
         "org.apache.logging.log4j:log4j-api": {
             "locked": "2.17.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-annotations",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core",
@@ -1335,7 +1114,6 @@
         "org.apache.logging.log4j:log4j-core": {
             "locked": "2.17.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-annotations",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core",
@@ -1347,7 +1125,6 @@
         "org.apache.logging.log4j:log4j-jul": {
             "locked": "2.17.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-annotations",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core",
@@ -1357,7 +1134,6 @@
         "org.apache.logging.log4j:log4j-slf4j-impl": {
             "locked": "2.17.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-annotations",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core",
@@ -1367,7 +1143,6 @@
         "org.apache.logging.log4j:log4j-web": {
             "locked": "2.17.0",
             "transitive": [
-                "com.netflix.conductor:common-persistence",
                 "com.netflix.conductor:conductor-annotations",
                 "com.netflix.conductor:conductor-common",
                 "com.netflix.conductor:conductor-core"
@@ -1383,12 +1158,8 @@
             "locked": "3.19.0",
             "transitive": [
                 "com.github.ben-manes.caffeine:caffeine",
-                "com.google.guava:guava",
-                "org.postgresql:postgresql"
+                "com.google.guava:guava"
             ]
-        },
-        "org.flywaydb:flyway-core": {
-            "locked": "8.0.5"
         },
         "org.hamcrest:hamcrest": {
             "locked": "2.2",
@@ -1401,12 +1172,6 @@
             "locked": "2.2",
             "transitive": [
                 "junit:junit"
-            ]
-        },
-        "org.jetbrains:annotations": {
-            "locked": "17.0.0",
-            "transitive": [
-                "org.rnorth.duct-tape:duct-tape"
             ]
         },
         "org.junit.jupiter:junit-jupiter": {
@@ -1460,6 +1225,12 @@
                 "org.junit.platform:junit-platform-engine"
             ]
         },
+        "org.lz4:lz4-java": {
+            "locked": "1.8.0",
+            "transitive": [
+                "org.apache.kafka:kafka-clients"
+            ]
+        },
         "org.mockito:mockito-core": {
             "locked": "4.0.0",
             "transitive": [
@@ -1492,15 +1263,6 @@
                 "net.minidev:accessors-smart"
             ]
         },
-        "org.postgresql:postgresql": {
-            "locked": "42.3.4"
-        },
-        "org.rnorth.duct-tape:duct-tape": {
-            "locked": "1.0.8",
-            "transitive": [
-                "org.testcontainers:testcontainers"
-            ]
-        },
         "org.skyscreamer:jsonassert": {
             "locked": "1.5.0",
             "transitive": [
@@ -1517,14 +1279,11 @@
         "org.slf4j:slf4j-api": {
             "locked": "1.7.36",
             "transitive": [
-                "com.github.docker-java:docker-java-api",
-                "com.github.docker-java:docker-java-transport-zerodep",
                 "com.jayway.jsonpath:json-path",
                 "com.netflix.spectator:spectator-api",
-                "com.zaxxer:HikariCP",
+                "org.apache.kafka:kafka-clients",
                 "org.apache.logging.log4j:log4j-slf4j-impl",
-                "org.slf4j:jul-to-slf4j",
-                "org.testcontainers:testcontainers"
+                "org.slf4j:jul-to-slf4j"
             ]
         },
         "org.springframework.boot:spring-boot": {
@@ -1546,12 +1305,8 @@
         "org.springframework.boot:spring-boot-starter": {
             "locked": "2.6.7",
             "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc",
                 "org.springframework.boot:spring-boot-starter-test"
             ]
-        },
-        "org.springframework.boot:spring-boot-starter-jdbc": {
-            "locked": "2.6.7"
         },
         "org.springframework.boot:spring-boot-starter-log4j2": {
             "locked": "2.6.7"
@@ -1588,9 +1343,7 @@
             "locked": "5.3.19",
             "transitive": [
                 "org.springframework:spring-aop",
-                "org.springframework:spring-context",
-                "org.springframework:spring-jdbc",
-                "org.springframework:spring-tx"
+                "org.springframework:spring-context"
             ]
         },
         "org.springframework:spring-context": {
@@ -1609,9 +1362,7 @@
                 "org.springframework:spring-beans",
                 "org.springframework:spring-context",
                 "org.springframework:spring-expression",
-                "org.springframework:spring-jdbc",
-                "org.springframework:spring-test",
-                "org.springframework:spring-tx"
+                "org.springframework:spring-test"
             ]
         },
         "org.springframework:spring-expression": {
@@ -1626,43 +1377,16 @@
                 "org.springframework:spring-core"
             ]
         },
-        "org.springframework:spring-jdbc": {
-            "locked": "5.3.19",
-            "transitive": [
-                "org.springframework.boot:spring-boot-starter-jdbc"
-            ]
-        },
         "org.springframework:spring-test": {
             "locked": "5.3.19",
             "transitive": [
                 "org.springframework.boot:spring-boot-starter-test"
             ]
         },
-        "org.springframework:spring-tx": {
-            "locked": "5.3.19",
+        "org.xerial.snappy:snappy-java": {
+            "locked": "1.1.8.4",
             "transitive": [
-                "org.springframework:spring-jdbc"
-            ]
-        },
-        "org.testcontainers:database-commons": {
-            "locked": "1.16.3",
-            "transitive": [
-                "org.testcontainers:jdbc"
-            ]
-        },
-        "org.testcontainers:jdbc": {
-            "locked": "1.16.3",
-            "transitive": [
-                "org.testcontainers:postgresql"
-            ]
-        },
-        "org.testcontainers:postgresql": {
-            "locked": "1.16.3"
-        },
-        "org.testcontainers:testcontainers": {
-            "locked": "1.16.3",
-            "transitive": [
-                "org.testcontainers:database-commons"
+                "org.apache.kafka:kafka-clients"
             ]
         },
         "org.xmlunit:xmlunit-core": {
