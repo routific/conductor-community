@@ -1,0 +1,11 @@
+dependencies {
+    implementation project(':conductor-common')
+    implementation project(':conductor-core')
+
+    implementation "org.apache.kafka:kafka-clients:${revKafka}"
+
+    implementation "com.spotify:completable-futures:${revSpotifyCompletableFutures}"
+
+    compileOnly 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.springframework.boot:spring-boot-starter-web'
+}
