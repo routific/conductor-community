@@ -14,11 +14,17 @@ package com.netflix.conductor.es7.config;
 import java.net.URL;
 import java.util.List;
 
+import javax.net.ssl.SSLContext;
+
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContexts;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.slf4j.Logger;
@@ -69,9 +75,25 @@ public class ElasticSearchV7Configuration {
                     AuthScope.ANY,
                     new UsernamePasswordCredentials(
                             properties.getUsername(), properties.getPassword()));
-            builder.setHttpClientConfigCallback(
-                    httpClientBuilder ->
-                            httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider));
+            try {
+                SSLContextBuilder sslBuilder = SSLContexts.custom().loadTrustMaterial(null,
+                        (x509Certificates, s) -> true);
+                final SSLContext sslContext = sslBuilder.build();
+
+                builder.setHttpClientConfigCallback(
+                        new RestClientBuilder.HttpClientConfigCallback() {
+                            @Override
+                            public HttpAsyncClientBuilder customizeHttpClient(
+                                    HttpAsyncClientBuilder httpClientBuilder) {
+                                return httpClientBuilder
+                                        .setDefaultCredentialsProvider(credentialsProvider)
+                                        .setSSLContext(sslContext)
+                                        .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
+                            }
+                        });
+            } catch (Exception e) {
+                log.error("Error authenticating to ElasticSearch", e.getMessage());
+            }
         } else {
             log.info("Configure ElasticSearch with no authentication.");
         }

@@ -24,9 +24,7 @@ import com.netflix.conductor.core.events.queue.ObservableQueue;
 
 import rx.Scheduler;
 
-/**
- * @author preeth, rickfish
- */
+
 public class KafkaEventQueueProvider implements EventQueueProvider {
     private static Logger logger = LoggerFactory.getLogger(KafkaEventQueueProvider.class);
     protected Map<String, KafkaObservableQueue> queues = new ConcurrentHashMap<>();
