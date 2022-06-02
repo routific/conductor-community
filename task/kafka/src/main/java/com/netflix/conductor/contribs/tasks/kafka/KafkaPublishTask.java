@@ -122,7 +122,7 @@ public class KafkaPublishTask extends WorkflowSystemTask {
                     task.setStatus(TaskModel.Status.COMPLETED);
                 }
                 long timeTakenToCompleteTask = Instant.now().toEpochMilli() - taskStartMillis;
-                LOGGER.debug("Published message {}, Time taken {}", input, timeTakenToCompleteTask);
+                LOGGER.info("Published message {}, Time taken {}", input, timeTakenToCompleteTask);
 
             } catch (ExecutionException ec) {
                 LOGGER.error(
