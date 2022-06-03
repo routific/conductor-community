@@ -111,6 +111,7 @@ public class KafkaPublishTask extends WorkflowSystemTask {
             markTaskAsFailed(task, MISSING_KAFKA_VALUE);
             return;
         }
+        LOGGER.info("Sending message {}", input);
 
         try {
             Future<RecordMetadata> recordMetaDataFuture = kafkaPublish(input);
