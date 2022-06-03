@@ -36,7 +36,7 @@ include 'event-queue:amqp'
 include 'event-queue:nats'
 include 'event-queue:kafka'
 include 'lock:zookeeper-lock'
-include 'task:kafka'
+include 'task:kafka-publish'
 
 rootProject.children.stream()
         .filter(p -> p.name.equals("persistence") || p.name.equals("index") ||
