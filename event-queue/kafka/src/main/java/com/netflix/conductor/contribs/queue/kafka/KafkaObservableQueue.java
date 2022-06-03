@@ -291,6 +291,7 @@ public class KafkaObservableQueue implements ObservableQueue, Runnable, Consumer
 
     @Override
     public void run() {
+        logger.info("Start kafka consumer: {}", queueName);
         try {
             while (isRunning()) {
                 ConsumerRecords<String, String> records =
@@ -304,6 +305,7 @@ public class KafkaObservableQueue implements ObservableQueue, Runnable, Consumer
         } finally {
             consumer.close();
         }
+        logger.info("Ended kafka consumer: {}", queueName);
     }
 
     @Override
