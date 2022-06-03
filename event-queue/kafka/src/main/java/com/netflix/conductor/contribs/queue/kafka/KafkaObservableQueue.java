@@ -286,6 +286,7 @@ public class KafkaObservableQueue implements ObservableQueue, Runnable, Consumer
     @Override
     public void observe(ObservableQueueHandler handler) {
         this.handler = handler;
+        logger.info("Start observing kafka: {}", queueName);
         new Thread(this).start();
     }
 
