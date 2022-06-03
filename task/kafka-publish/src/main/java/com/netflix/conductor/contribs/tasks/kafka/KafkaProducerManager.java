@@ -101,6 +101,7 @@ public class KafkaProducerManager {
     }
 
     public Producer getProducer(KafkaPublishTask.Input input) {
+        LOGGER.info("Get producer");
         Properties configProperties = getProducerProperties(input);
         return getFromCache(configProperties, () -> new KafkaProducer(configProperties));
     }

@@ -80,7 +80,7 @@ public class KafkaPublishTask extends WorkflowSystemTask {
 
     @Override
     public void start(WorkflowModel workflow, TaskModel task, WorkflowExecutor executor) {
-
+        LOGGER.info("Starting kafka publish: {}", input);
         long taskStartMillis = Instant.now().toEpochMilli();
         task.setWorkerId(Utils.getServerId());
         Object request = task.getInputData().get(requestParameter);
@@ -153,7 +153,7 @@ public class KafkaPublishTask extends WorkflowSystemTask {
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Future<RecordMetadata> kafkaPublish(Input input) throws Exception {
-
+        LOGGER.info("Executing kafka publish: {}", input);
         long startPublishingEpochMillis = Instant.now().toEpochMilli();
 
         Producer producer = producerManager.getProducer(input);
