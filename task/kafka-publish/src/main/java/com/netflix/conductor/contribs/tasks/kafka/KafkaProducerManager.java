@@ -79,8 +79,6 @@ public class KafkaProducerManager {
             @Value("${conductor.tasks.kafka-publish.topicNamespace:#{null}}") String topicNamespace,
             @Value("${conductor.tasks.kafka-publish.truststorePath:#{null}}") String truststorePath,
             @Value("${conductor.tasks.kafka-publish.truststorePassword:#{null}}") String truststorePassword) {
-
-        LOGGER.info("Kafka producer manager value: {}/{}/{}", bootstrapServers, saslUsername, topicNamespace);
         this.requestTimeoutConfig = String.valueOf(requestTimeout.toMillis());
         this.maxBlockMsConfig = String.valueOf(maxBlock.toMillis());
         this.securityProtocol = securityProtocol;
@@ -101,7 +99,6 @@ public class KafkaProducerManager {
     }
 
     public Producer getProducer(KafkaPublishTask.Input input) {
-        LOGGER.info("Get producer");
         Properties configProperties = getProducerProperties(input);
         return getFromCache(configProperties, () -> new KafkaProducer(configProperties));
     }
