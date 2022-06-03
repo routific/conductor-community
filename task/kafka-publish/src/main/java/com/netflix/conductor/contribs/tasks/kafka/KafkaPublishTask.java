@@ -47,7 +47,7 @@ import static com.netflix.conductor.common.metadata.tasks.TaskType.TASK_TYPE_KAF
 @Component(TASK_TYPE_KAFKA_PUBLISH)
 public class KafkaPublishTask extends WorkflowSystemTask {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaPublishTask.class);
+    private static final java.util.logging.Logger LOGGER = LoggerFactory.getLogger(KafkaPublishTask.class);
 
     static final String REQUEST_PARAMETER_NAME = "kafka_request";
     private static final String MISSING_REQUEST =
@@ -80,10 +80,12 @@ public class KafkaPublishTask extends WorkflowSystemTask {
 
     @Override
     public void start(WorkflowModel workflow, TaskModel task, WorkflowExecutor executor) {
-        LOGGER.info("Starting kafka publish: {}", input);
+        LOGGER.info("Starting kafka publish");
         long taskStartMillis = Instant.now().toEpochMilli();
         task.setWorkerId(Utils.getServerId());
         Object request = task.getInputData().get(requestParameter);
+
+        LOGGER.info("Sending kafka request {}", request);
 
         if (Objects.isNull(request)) {
             markTaskAsFailed(task, MISSING_REQUEST);
@@ -91,6 +93,10 @@ public class KafkaPublishTask extends WorkflowSystemTask {
         }
 
         Input input = objectMapper.convertValue(request, Input.class);
+
+        LOGGER.info("Sending kafka input {}", input);
+
+        LOGGER.info("Using bootstrap server: {}", this.defaultBootStrapServer);
 
         if (StringUtils.isBlank(input.getBootStrapServers())) {
             if (!StringUtils.isBlank(this.defaultBootStrapServer)) {
@@ -111,7 +117,7 @@ public class KafkaPublishTask extends WorkflowSystemTask {
             markTaskAsFailed(task, MISSING_KAFKA_VALUE);
             return;
         }
-        LOGGER.info("Sending message {}", input);
+
 
         try {
             Future<RecordMetadata> recordMetaDataFuture = kafkaPublish(input);
@@ -145,6 +151,7 @@ public class KafkaPublishTask extends WorkflowSystemTask {
     private void markTaskAsFailed(TaskModel task, String reasonForIncompletion) {
         task.setReasonForIncompletion(reasonForIncompletion);
         task.setStatus(TaskModel.Status.FAILED);
+        LOGGER.error("Kafka publish task {} failed: {}", task.getTaskId(), reasonForIncompletion);
     }
 
     /**
