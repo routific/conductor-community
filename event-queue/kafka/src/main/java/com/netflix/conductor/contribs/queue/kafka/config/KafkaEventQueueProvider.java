@@ -22,18 +22,13 @@ import com.netflix.conductor.contribs.queue.kafka.KafkaObservableQueue;
 import com.netflix.conductor.core.events.EventQueueProvider;
 import com.netflix.conductor.core.events.queue.ObservableQueue;
 
-import rx.Scheduler;
-
 
 public class KafkaEventQueueProvider implements EventQueueProvider {
     private static Logger logger = LoggerFactory.getLogger(KafkaEventQueueProvider.class);
     protected Map<String, KafkaObservableQueue> queues = new ConcurrentHashMap<>();
     private KafkaEventQueueProperties properties;
 
-    private final Scheduler scheduler;
-
-    public KafkaEventQueueProvider(KafkaEventQueueProperties properties, Scheduler scheduler) {
-        this.scheduler = scheduler;
+    public KafkaEventQueueProvider(KafkaEventQueueProperties properties) {
         this.properties = properties;
         logger.info("Kafka Event Queue Provider initialized.");
     }
@@ -46,6 +41,6 @@ public class KafkaEventQueueProvider implements EventQueueProvider {
     @Override
     public ObservableQueue getQueue(String queueURI) {
         return queues.computeIfAbsent(
-                queueURI, q -> new KafkaObservableQueue(queueURI, properties, scheduler));
+                queueURI, q -> new KafkaObservableQueue(queueURI, properties));
     }
 }

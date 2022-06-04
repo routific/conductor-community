@@ -183,8 +183,7 @@
             "locked": "2.6.7",
             "transitive": [
                 "org.springframework.boot:spring-boot-autoconfigure",
-                "org.springframework.boot:spring-boot-starter",
-                "org.springframework.boot:spring-boot-test"
+                "org.springframework.boot:spring-boot-starter"
             ]
         },
         "org.springframework.boot:spring-boot-autoconfigure": {
@@ -219,9 +218,6 @@
             ]
         },
         "org.springframework.boot:spring-boot-starter-web": {
-            "locked": "2.6.7"
-        },
-        "org.springframework.boot:spring-boot-test": {
             "locked": "2.6.7"
         },
         "org.springframework:spring-aop": {
@@ -2367,7 +2363,7 @@
             ]
         },
         "com.netflix.conductor:conductor-es6-persistence": {
-            "locked": "3.8.2",
+            "locked": "3.8.3",
             "transitive": [
                 "com.netflix.conductor:conductor-server"
             ]
@@ -2710,7 +2706,7 @@
             ]
         },
         "io.github.classgraph:classgraph": {
-            "locked": "4.8.143",
+            "locked": "4.8.147",
             "transitive": [
                 "org.mock-server:mockserver-core",
                 "org.springdoc:springdoc-openapi-ui"
@@ -4234,20 +4230,20 @@
             ]
         },
         "org.springdoc:springdoc-openapi-common": {
-            "locked": "1.6.8",
+            "locked": "1.6.9",
             "transitive": [
                 "org.springdoc:springdoc-openapi-webmvc-core"
             ]
         },
         "org.springdoc:springdoc-openapi-ui": {
-            "locked": "1.6.8",
+            "locked": "1.6.9",
             "transitive": [
                 "com.netflix.conductor:conductor-rest",
                 "com.netflix.conductor:conductor-server"
             ]
         },
         "org.springdoc:springdoc-openapi-webmvc-core": {
-            "locked": "1.6.8",
+            "locked": "1.6.9",
             "transitive": [
                 "org.springdoc:springdoc-openapi-ui"
             ]
@@ -4483,7 +4479,7 @@
             ]
         },
         "org.webjars:swagger-ui": {
-            "locked": "4.10.3",
+            "locked": "4.11.1",
             "transitive": [
                 "org.springdoc:springdoc-openapi-ui"
             ]

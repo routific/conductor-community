@@ -52,7 +52,6 @@ import com.netflix.conductor.core.utils.Utils;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import rx.Observable;
-import rx.Scheduler;
 
 public class KafkaObservableQueue implements ObservableQueue, Runnable, ConsumerRebalanceListener {
 
@@ -94,7 +93,7 @@ public class KafkaObservableQueue implements ObservableQueue, Runnable, Consumer
     private ObservableQueueHandler handler;
 
     public KafkaObservableQueue(
-            String queueName, KafkaEventQueueProperties properties, Scheduler scheduler) {
+            String queueName, KafkaEventQueueProperties properties) {
         this.kafkaNamespace = properties.getTopicNamespace();
         this.jaasTemplate = properties.getJaasTemplate();
         this.queueName = queueName;
