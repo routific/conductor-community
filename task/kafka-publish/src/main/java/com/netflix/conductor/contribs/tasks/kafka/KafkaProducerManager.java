@@ -60,7 +60,7 @@ public class KafkaProducerManager {
             notification -> {
                 if (notification.getValue() != null) {
                     notification.getValue().close();
-                    LOGGER.info("Closed producer for {}", notification.getKey());
+                    LOGGER.info("Closed kafka producer.");
                 }
             };
 
