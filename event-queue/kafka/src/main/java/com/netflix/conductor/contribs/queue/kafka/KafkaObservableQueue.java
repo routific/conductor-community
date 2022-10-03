@@ -79,7 +79,7 @@ public class KafkaObservableQueue implements ObservableQueue, Runnable, Consumer
     private final String saslUsernameConfig;
     private final String saslPasswordConfig;
 
-    private final String kafkaNamespace;
+    private String kafkaNamespace = "";
     private final String jaasTemplate;
 
     private final AtomicBoolean running = new AtomicBoolean(false);

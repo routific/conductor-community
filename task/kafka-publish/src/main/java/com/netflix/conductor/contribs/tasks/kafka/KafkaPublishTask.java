@@ -152,6 +152,13 @@ public class KafkaPublishTask extends WorkflowSystemTask {
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Future<RecordMetadata> kafkaPublish(Input input) throws Exception {
+        String topic = this.topicNamespace + input.getTopic();
+        String overrideTopicNamespace = input.getOverrideTopicNamespace();
+        if (!Objects.isNull(overrideTopicNamespace)) {
+            topic = overrideTopicNamespace + input.getTopic();
+        }
+        input.setTopic(topic);
+
         LOGGER.info("Executing kafka publish: {}", input);
         long startPublishingEpochMillis = Instant.now().toEpochMilli();
 
@@ -163,6 +170,7 @@ public class KafkaPublishTask extends WorkflowSystemTask {
 
         Object key = getKey(input);
 
+
         Iterable<Header> headers =
                 input.getHeaders().entrySet().stream()
                         .map(
@@ -173,7 +181,7 @@ public class KafkaPublishTask extends WorkflowSystemTask {
                         .collect(Collectors.toList());
         ProducerRecord rec =
                 new ProducerRecord(
-                        topicNamespace + input.getTopic(),
+                        input.getTopic(),
                         null,
                         null,
                         key,
@@ -228,6 +236,7 @@ public class KafkaPublishTask extends WorkflowSystemTask {
         private Integer maxBlockMs;
         private String topic;
         private String keySerializer = STRING_SERIALIZER;
+        private String overrideTopicNamespace;
 
         public Map<String, Object> getHeaders() {
             return headers;
@@ -275,6 +284,14 @@ public class KafkaPublishTask extends WorkflowSystemTask {
 
         public void setTopic(String topic) {
             this.topic = topic;
+        }
+
+        public String getOverrideTopicNamespace() {
+            return this.overrideTopicNamespace;
+        }
+
+        public void setOverrideTopicNamespace(String namespace) {
+            this.overrideTopicNamespace = namespace;
         }
 
         public String getKeySerializer() {
