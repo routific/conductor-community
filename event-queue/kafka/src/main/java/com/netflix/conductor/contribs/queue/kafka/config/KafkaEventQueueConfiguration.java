@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.netflix.conductor.core.events.EventQueueProvider;
+import com.netflix.conductor.core.tracing.TracingProvider;
 
 
 @Configuration(proxyBeanMethods = false)
@@ -27,7 +28,8 @@ public class KafkaEventQueueConfiguration {
 
     @Bean
     public EventQueueProvider kafkaEventQueueProvider(
-            KafkaEventQueueProperties properties) {
-        return new KafkaEventQueueProvider(properties);
+            KafkaEventQueueProperties properties,
+            TracingProvider tracingProvider) {
+        return new KafkaEventQueueProvider(properties, tracingProvider);
     }
 }
