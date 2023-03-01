@@ -50,8 +50,6 @@ import com.netflix.conductor.core.events.queue.ObservableQueueHandler;
 import com.netflix.conductor.core.tracing.TracingProvider;
 import com.netflix.conductor.core.utils.Utils;
 
-import io.sentry.Sentry;
-
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import rx.Observable;
 
