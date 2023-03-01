@@ -53,13 +53,6 @@ import com.netflix.conductor.core.utils.Utils;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import rx.Observable;
 
-// import io.opentelemetry.context.propagation.ContextPropagators;
-// import io.opentelemetry.sdk.OpenTelemetrySdk;
-// import io.opentelemetry.sdk.trace.SdkTracerProvider;
-// import io.sentry.Instrumenter;
-// import io.sentry.opentelemetry.OpenTelemetryLinkErrorEventProcessor;
-// import io.sentry.opentelemetry.SentryPropagator;
-// import io.sentry.opentelemetry.SentrySpanProcessor;
 
 public class KafkaObservableQueue implements ObservableQueue, Runnable, ConsumerRebalanceListener {
 
