@@ -52,7 +52,7 @@ public class KafkaTransactionRecord {
     this.tracingProvider = tracingProvider;
 
     Headers headers = record.headers();
-    Header header = headers.lastHeader("traceparent");
+    Header header = headers.lastHeader("sentryheader");
     if (header != null) {
       this.traceHeader = Optional.of(new String(header.value(), StandardCharsets.UTF_8));
     }
