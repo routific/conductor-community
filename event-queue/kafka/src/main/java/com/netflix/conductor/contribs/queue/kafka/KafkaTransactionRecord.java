@@ -24,23 +24,8 @@ import org.slf4j.LoggerFactory;
 import com.netflix.conductor.core.tracing.Tracing;
 import com.netflix.conductor.core.tracing.TracingProvider;
 
-// import io.sentry.ITransaction;
-// import io.sentry.Sentry;
-// import io.sentry.SentryTraceHeader;
-// import io.sentry.TransactionContext;
-
-// import io.opentelemetry.api.GlobalOpenTelemetry;
-// import io.opentelemetry.api.trace.Span;
-// import io.opentelemetry.api.trace.SpanContext;
-// import io.opentelemetry.api.trace.TraceFlags;
-// import io.opentelemetry.api.trace.TraceState;
-// import io.opentelemetry.api.trace.Tracer;
-// import io.opentelemetry.context.Context;
-
 public class KafkaTransactionRecord {
   private ConsumerRecord<String, String> record;
-  // private Optional<ITransaction> transaction = Optional.empty();
-  // private Optional<Span> span = Optional.empty();
   private Optional<String> traceHeader = Optional.empty();
   private TracingProvider tracingProvider;
   private Tracing tracing;
@@ -52,7 +37,7 @@ public class KafkaTransactionRecord {
     this.tracingProvider = tracingProvider;
 
     Headers headers = record.headers();
-    Header header = headers.lastHeader("sentryheader");
+    Header header = headers.lastHeader("sentry-header");
     if (header != null) {
       this.traceHeader = Optional.of(new String(header.value(), StandardCharsets.UTF_8));
     }
@@ -73,13 +58,6 @@ public class KafkaTransactionRecord {
   }
 
   public void finish() {
-    // if (this.transaction.isPresent()) {
-    //   this.transaction.get().finish();
-    // }
-
-    // if (this.span.isPresent()) {
-    //   this.span.get().end();
-    // }
       if (this.tracing != null) {
         this.tracing.finish();
       }
