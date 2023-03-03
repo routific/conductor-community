@@ -100,6 +100,13 @@ public class KafkaPublishTask extends WorkflowSystemTask {
 
         Input input = objectMapper.convertValue(request, Input.class);
 
+        Optional<String> traceId = span.getTraceId();
+        if (traceId.isPresent()) {
+            Map<String, Object> headers = new HashMap<>();
+            headers.put(tracingProvider.getTraceHeader(), span.getTraceId().get());
+            input.setHeaders(headers);
+        }
+
         if (StringUtils.isBlank(input.getBootStrapServers())) {
             if (!StringUtils.isBlank(this.defaultBootStrapServer)) {
                 input.setBootStrapServers(this.defaultBootStrapServer);
