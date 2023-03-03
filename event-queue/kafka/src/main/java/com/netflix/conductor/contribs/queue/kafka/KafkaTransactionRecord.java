@@ -37,7 +37,7 @@ public class KafkaTransactionRecord {
     this.tracingProvider = tracingProvider;
 
     Headers headers = record.headers();
-    Header header = headers.lastHeader("sentry-header");
+    Header header = headers.lastHeader(tracingProvider.getTraceHeader());
     if (header != null) {
       this.traceHeader = Optional.of(new String(header.value(), StandardCharsets.UTF_8));
     }
@@ -49,7 +49,7 @@ public class KafkaTransactionRecord {
         this.tracing = this.tracingProvider.startTracing("Consumed " + record.topic(), traceHeader);
       }
     } catch (Exception e) {
-      logger.error("Error creating sentry transaction: {}", e);
+      logger.error("Error creating transaction: {}", e);
     }
   }
 
