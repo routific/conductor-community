@@ -287,7 +287,7 @@ public class KafkaObservableQueue implements ObservableQueue, Runnable, Consumer
 
                                         transactionRecords.add(transactionRecord);
                                     } catch (Exception e) {
-                                        logger.error("some error", e);
+                                        logger.error("error creating kafka transaction record", e);
                                     }
                                 });
 
