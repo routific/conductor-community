@@ -36,6 +36,16 @@ public class KafkaEventQueueProperties {
 
     private int kafkaThreadPoolCount = 20;
 
+    private String sentryDsn;
+
+    public void setSentryDsn(String sentryDsn) {
+        this.sentryDsn = sentryDsn;
+    }
+
+    public String getSentryDsn() {
+        return this.sentryDsn;
+    }
+
     public int getKafkaThreadPoolCount() {
         return kafkaThreadPoolCount;
     }

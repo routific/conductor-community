@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
@@ -35,10 +36,11 @@ import org.springframework.stereotype.Component;
 
 import com.netflix.conductor.core.execution.WorkflowExecutor;
 import com.netflix.conductor.core.execution.tasks.WorkflowSystemTask;
+import com.netflix.conductor.core.tracing.Tracing;
+import com.netflix.conductor.core.tracing.TracingProvider;
 import com.netflix.conductor.core.utils.Utils;
 import com.netflix.conductor.model.TaskModel;
 import com.netflix.conductor.model.WorkflowModel;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.annotations.VisibleForTesting;
 
@@ -67,19 +69,26 @@ public class KafkaPublishTask extends WorkflowSystemTask {
     private String defaultBootStrapServer;
     private final String topicNamespace;
 
+    private TracingProvider tracingProvider;
+
     @Autowired
-    public KafkaPublishTask(KafkaProducerManager clientManager, ObjectMapper objectMapper) {
+    public KafkaPublishTask(KafkaProducerManager clientManager, ObjectMapper objectMapper, TracingProvider tracingProvider) {
         super(TASK_TYPE_KAFKA_PUBLISH);
         this.requestParameter = REQUEST_PARAMETER_NAME;
         this.producerManager = clientManager;
         this.objectMapper = objectMapper;
         this.defaultBootStrapServer = clientManager.getBootstrapServers();
         this.topicNamespace = clientManager.getTopicNamespace();
+        this.tracingProvider = tracingProvider;
+
         LOGGER.info("KafkaTask initialized.");
     }
 
     @Override
     public void start(WorkflowModel workflow, TaskModel task, WorkflowExecutor executor) {
+        Tracing span = this.tracingProvider.startTracing(
+                "Publish " + task.getReferenceTaskName(), Optional.ofNullable(workflow.getCorrelationId()));
+
         long taskStartMillis = Instant.now().toEpochMilli();
         task.setWorkerId(Utils.getServerId());
         Object request = task.getInputData().get(requestParameter);
@@ -90,6 +99,13 @@ public class KafkaPublishTask extends WorkflowSystemTask {
         }
 
         Input input = objectMapper.convertValue(request, Input.class);
+
+        Optional<String> traceId = span.getTraceId();
+        if (traceId.isPresent()) {
+            Map<String, Object> headers = new HashMap<>();
+            headers.put(tracingProvider.getTraceHeader(), span.getTraceId().get());
+            input.setHeaders(headers);
+        }
 
         if (StringUtils.isBlank(input.getBootStrapServers())) {
             if (!StringUtils.isBlank(this.defaultBootStrapServer)) {
@@ -114,14 +130,16 @@ public class KafkaPublishTask extends WorkflowSystemTask {
         try {
             Future<RecordMetadata> recordMetaDataFuture = kafkaPublish(input);
             try {
-                recordMetaDataFuture.get();
+                RecordMetadata record = recordMetaDataFuture.get();
                 if (isAsyncComplete(task)) {
                     task.setStatus(TaskModel.Status.IN_PROGRESS);
                 } else {
                     task.setStatus(TaskModel.Status.COMPLETED);
                 }
                 long timeTakenToCompleteTask = Instant.now().toEpochMilli() - taskStartMillis;
-                LOGGER.info("Published message {}, Time taken {}", input, timeTakenToCompleteTask);
+                LOGGER.info("Published message {}, Time taken {}, topic: {}, partition: {}, offset: {}", input, timeTakenToCompleteTask,
+                        record.topic(),
+                        record.partition(), record.offset());
 
             } catch (ExecutionException ec) {
                 LOGGER.error(
@@ -138,6 +156,8 @@ public class KafkaPublishTask extends WorkflowSystemTask {
                     e);
             markTaskAsFailed(task, FAILED_TO_INVOKE + e.getMessage());
         }
+
+        span.finish();
     }
 
     private void markTaskAsFailed(TaskModel task, String reasonForIncompletion) {

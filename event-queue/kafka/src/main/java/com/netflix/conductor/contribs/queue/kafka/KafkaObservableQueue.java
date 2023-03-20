@@ -30,7 +30,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRebalanceListener;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
@@ -48,10 +47,12 @@ import com.netflix.conductor.contribs.queue.kafka.config.KafkaEventQueueProperti
 import com.netflix.conductor.core.events.queue.Message;
 import com.netflix.conductor.core.events.queue.ObservableQueue;
 import com.netflix.conductor.core.events.queue.ObservableQueueHandler;
+import com.netflix.conductor.core.tracing.TracingProvider;
 import com.netflix.conductor.core.utils.Utils;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import rx.Observable;
+
 
 public class KafkaObservableQueue implements ObservableQueue, Runnable, ConsumerRebalanceListener {
 
@@ -92,8 +93,10 @@ public class KafkaObservableQueue implements ObservableQueue, Runnable, Consumer
 
     private ObservableQueueHandler handler;
 
+    private TracingProvider tracingProvider;
+
     public KafkaObservableQueue(
-            String queueName, KafkaEventQueueProperties properties) {
+            String queueName, KafkaEventQueueProperties properties, TracingProvider tracingProvider) {
         this.kafkaNamespace = properties.getTopicNamespace();
         this.jaasTemplate = properties.getJaasTemplate();
         this.queueName = queueName;
@@ -108,6 +111,8 @@ public class KafkaObservableQueue implements ObservableQueue, Runnable, Consumer
 
         this.saslUsernameConfig = properties.getSaslUsername();
         this.saslPasswordConfig = properties.getSaslPassword();
+
+        this.tracingProvider = tracingProvider;
 
         ThreadFactory threadFactory =
                 new ThreadFactoryBuilder().setNameFormat("kafka-record-process-thread-%d").build();
@@ -164,7 +169,7 @@ public class KafkaObservableQueue implements ObservableQueue, Runnable, Consumer
                 consumerProperties.put(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG, "");
             }
 
-            if (!truststorePath.isEmpty()) {
+            if (truststorePath != null && !truststorePath.isEmpty()) {
                 consumerProperties.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, truststorePath);
                 consumerProperties.put(
                         SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, truststorePassword);
@@ -263,10 +268,31 @@ public class KafkaObservableQueue implements ObservableQueue, Runnable, Consumer
             records.partitions()
                     .forEach(
                             partition -> {
-                                List<ConsumerRecord<String, String>> partitionRecords =
-                                        records.records(partition);
+                                List<KafkaTransactionRecord> transactionRecords = new ArrayList<>();
+
+                                records.records(partition).forEach((record) -> {
+                                    logger.info(
+                                            "Consumer Record: "
+                                                    + "key: {}, "
+                                                    + "value: {}, "
+                                                    + "partition: {}, "
+                                                    + "offset: {}",
+                                            record.key(),
+                                            record.value(),
+                                            record.partition(),
+                                            record.offset());
+                                    try {
+                                        KafkaTransactionRecord transactionRecord = new KafkaTransactionRecord(record, this.tracingProvider);
+                                        transactionRecord.start();
+
+                                        transactionRecords.add(transactionRecord);
+                                    } catch (Exception e) {
+                                        logger.error("error creating kafka transaction record", e);
+                                    }
+                                });
+
                                 KafkaPartitionTask task =
-                                        new KafkaPartitionTask(partitionRecords, handler);
+                                        new KafkaPartitionTask(transactionRecords, handler);
                                 partitionsToPause.add(partition);
                                 executor.submit(task);
                                 activeTasks.put(partition, task);

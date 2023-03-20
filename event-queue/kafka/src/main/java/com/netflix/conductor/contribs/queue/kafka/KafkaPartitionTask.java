@@ -31,7 +31,7 @@ import com.spotify.futures.CompletableFutures;
 
 public class KafkaPartitionTask implements Runnable {
 
-    private final List<ConsumerRecord<String, String>> records;
+    private final List<KafkaTransactionRecord> transactionRecords;
 
     private volatile boolean stopped = false;
 
@@ -50,8 +50,8 @@ public class KafkaPartitionTask implements Runnable {
     private ObservableQueueHandler handler;
 
     public KafkaPartitionTask(
-            List<ConsumerRecord<String, String>> records, ObservableQueueHandler handler) {
-        this.records = records;
+            List<KafkaTransactionRecord> transactionRecords, ObservableQueueHandler handler) {
+        this.transactionRecords = transactionRecords;
         this.handler = handler;
     }
 
@@ -65,21 +65,12 @@ public class KafkaPartitionTask implements Runnable {
         started = true;
         startStopLock.unlock();
 
-        long lastOffset = records.get(records.size() - 1).offset();
+        long lastOffset = transactionRecords.get(transactionRecords.size() - 1).get().offset();
 
         List<CompletableFuture<Void>> processAll = new ArrayList<>();
-        records.forEach(
-                (record) -> {
-                    logger.info(
-                            "Consumer Record: "
-                                    + "key: {}, "
-                                    + "value: {}, "
-                                    + "partition: {}, "
-                                    + "offset: {}",
-                            record.key(),
-                            record.value(),
-                            record.partition(),
-                            record.offset());
+        transactionRecords.forEach(
+                (transactionRecord) -> {
+                    ConsumerRecord<String, String> record = transactionRecord.get();
                     String id =
                             record.key()
                                     + ":"
@@ -90,7 +81,10 @@ public class KafkaPartitionTask implements Runnable {
                                     + record.offset();
                     Message message = new Message(id, String.valueOf(record.value()), "");
 
-                    processAll.add(CompletableFuture.runAsync(() -> handler.call(message)));
+                    processAll.add(CompletableFuture.runAsync(() -> {
+                        handler.call(message);
+                        transactionRecord.finish();
+                    }));
                 });
         try {
             CompletableFutures.allAsList(processAll).get();
@@ -137,7 +131,7 @@ public class KafkaPartitionTask implements Runnable {
         long timeTakenToCompleteTask = Instant.now().toEpochMilli() - taskStartMillis;
         logger.info(
                 "Task processed {} records, Time taken {}",
-                records.size(),
+                transactionRecords.size(),
                 timeTakenToCompleteTask);
     }
 
