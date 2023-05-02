@@ -102,8 +102,15 @@ public class KafkaPublishTask extends WorkflowSystemTask {
 
         Optional<String> traceId = span.getTraceId();
         if (traceId.isPresent()) {
+            span.setUserIdentifier(workflow.getUserIdentifier());
+
             Map<String, Object> headers = new HashMap<>();
             headers.put(tracingProvider.getTraceHeader(), span.getTraceId().get());
+
+            if (workflow.getUserIdentifier() != null) {
+                headers.put("user-uuid", workflow.getUserIdentifier());
+            }
+
             input.setHeaders(headers);
         }
 
