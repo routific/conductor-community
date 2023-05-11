@@ -42,6 +42,9 @@ public class KafkaTransactionRecord {
     Header userIdentifier = headers.lastHeader("X-ROUTIFIC-USER");
     if (traceHeader != null) {
       this.traceHeader = Optional.of(new String(traceHeader.value(), StandardCharsets.UTF_8));
+    }
+
+    if (userIdentifier != null) {
       this.userIdentifier = Optional.of(new String(userIdentifier.value(), StandardCharsets.UTF_8));
     }
   }
