@@ -39,7 +39,7 @@ public class KafkaTransactionRecord {
 
     Headers headers = record.headers();
     Header traceHeader = headers.lastHeader(tracingProvider.getTraceHeader());
-    Header userIdentifier = headers.lastHeader("user-uuid");
+    Header userIdentifier = headers.lastHeader("X-ROUTIFIC-USER");
     if (traceHeader != null) {
       this.traceHeader = Optional.of(new String(traceHeader.value(), StandardCharsets.UTF_8));
       this.userIdentifier = Optional.of(new String(userIdentifier.value(), StandardCharsets.UTF_8));
