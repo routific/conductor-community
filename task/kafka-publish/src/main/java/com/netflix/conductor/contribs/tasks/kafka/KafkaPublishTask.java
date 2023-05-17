@@ -99,20 +99,20 @@ public class KafkaPublishTask extends WorkflowSystemTask {
         }
 
         Input input = objectMapper.convertValue(request, Input.class);
+        Map<String, Object> headers = new HashMap<>();
 
         Optional<String> traceId = span.getTraceId();
         if (traceId.isPresent()) {
             span.setUserIdentifier(workflow.getUserIdentifier());
-
-            Map<String, Object> headers = new HashMap<>();
             headers.put(tracingProvider.getTraceHeader(), span.getTraceId().get());
-
-            if (workflow.getUserIdentifier() != null) {
-                headers.put("X-ROUTIFIC-USER", workflow.getUserIdentifier());
-            }
-
-            input.setHeaders(headers);
         }
+
+        if (workflow.getUserIdentifier() != null) {
+            headers.put("X-ROUTIFIC-USER", workflow.getUserIdentifier());
+        }
+
+
+        input.setHeaders(headers);
 
         if (StringUtils.isBlank(input.getBootStrapServers())) {
             if (!StringUtils.isBlank(this.defaultBootStrapServer)) {
