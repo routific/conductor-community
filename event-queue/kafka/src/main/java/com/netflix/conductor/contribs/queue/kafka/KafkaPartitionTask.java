@@ -80,6 +80,7 @@ public class KafkaPartitionTask implements Runnable {
                                     + ":"
                                     + record.offset();
                     Message message = new Message(id, String.valueOf(record.value()), "");
+                    message.setUserIdentifier(transactionRecord.getUserIdentifier());
 
                     processAll.add(CompletableFuture.runAsync(() -> {
                         handler.call(message);

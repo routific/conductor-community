@@ -27,6 +27,7 @@ import com.netflix.conductor.core.tracing.TracingProvider;
 public class KafkaTransactionRecord {
   private ConsumerRecord<String, String> record;
   private Optional<String> traceHeader = Optional.empty();
+  public Optional<String> userIdentifier = Optional.empty();
   private TracingProvider tracingProvider;
   private Tracing tracing;
 
@@ -37,9 +38,14 @@ public class KafkaTransactionRecord {
     this.tracingProvider = tracingProvider;
 
     Headers headers = record.headers();
-    Header header = headers.lastHeader(tracingProvider.getTraceHeader());
-    if (header != null) {
-      this.traceHeader = Optional.of(new String(header.value(), StandardCharsets.UTF_8));
+    Header traceHeader = headers.lastHeader(tracingProvider.getTraceHeader());
+    Header userIdentifier = headers.lastHeader("X-ROUTIFIC-USER");
+    if (traceHeader != null) {
+      this.traceHeader = Optional.of(new String(traceHeader.value(), StandardCharsets.UTF_8));
+    }
+
+    if (userIdentifier != null) {
+      this.userIdentifier = Optional.of(new String(userIdentifier.value(), StandardCharsets.UTF_8));
     }
   }
 
@@ -47,10 +53,19 @@ public class KafkaTransactionRecord {
     try {
       if (this.traceHeader.isPresent()) {
         this.tracing = this.tracingProvider.startTracing("Consumed " + record.topic(), traceHeader);
+        this.tracing.setUserIdentifier(this.userIdentifier.get());
       }
     } catch (Exception e) {
       logger.error("Error creating transaction: {}", e);
     }
+  }
+
+  public String getUserIdentifier() {
+    if (this.userIdentifier.isPresent()) {
+      return this.userIdentifier.get();
+    }
+
+    return null;
   }
 
   public ConsumerRecord<String, String> get() {
