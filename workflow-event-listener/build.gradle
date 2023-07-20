@@ -6,6 +6,8 @@ dependencies {
     implementation "com.netflix.conductor:conductor-common:${revConductor}"
     implementation "com.netflix.conductor:conductor-core:${revConductor}"
 
+    implementation "org.apache.kafka:kafka-clients:${revKafka}"
+    implementation "com.google.guava:guava:${revGuava}"
     compileOnly 'org.springframework.boot:spring-boot-starter'
     compileOnly 'org.springframework.boot:spring-boot-starter-web'
 
@@ -16,5 +18,5 @@ dependencies {
 
     testImplementation "com.netflix.conductor:conductor-server:${revConductor}"
     testImplementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation project(':conductor-test-util').sourceSets.test.output
+    testImplementation project(':contribs:test-util').sourceSets.test.output
 }
