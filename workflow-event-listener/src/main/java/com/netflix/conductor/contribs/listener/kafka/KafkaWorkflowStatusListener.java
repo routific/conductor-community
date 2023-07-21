@@ -58,10 +58,12 @@ public class KafkaWorkflowStatusListener implements WorkflowStatusListener {
 
     @Override
     public void onWorkflowStarted(WorkflowModel workflow) {
-        LOGGER.info("Publishing callback of workflow {} on completion ", workflow.getWorkflowId());
-
         try {
-            this.publish(workflow, this.properties.getStartedWorkflowTopic());
+            String topicName = kafkaWorkflowProducerManager.getTopicNamespace() + this.properties
+                    .getFailedWorkflowTopic();
+            LOGGER.info("Publishing kafka event for started workflow {} to topic {}", workflow.getWorkflowId(),
+                    topicName);
+            this.publish(workflow, topicName);
         } catch (Exception e) {
             LOGGER.error("Failed to send workflow started event to kafka: {}", e.getMessage());
         }
@@ -69,10 +71,13 @@ public class KafkaWorkflowStatusListener implements WorkflowStatusListener {
 
     @Override
     public void onWorkflowCompleted(WorkflowModel workflow) {
-        LOGGER.info(
-                "Publishing kafka event for workflow {} on completion ", workflow.getWorkflowId());
         try {
-            this.publish(workflow, this.properties.getCompletedWorkflowTopic());
+            String topicName = kafkaWorkflowProducerManager.getTopicNamespace() + this.properties
+                    .getFailedWorkflowTopic();
+            LOGGER.info(
+                    "Publishing kafka event for completed workflow {} to topic {}", workflow.getWorkflowId(),
+                    topicName);
+            this.publish(workflow, topicName);
         } catch (Exception e) {
             LOGGER.error("Failed to send workflow completed event to kafka: {}", e.getMessage());
         }
@@ -80,10 +85,13 @@ public class KafkaWorkflowStatusListener implements WorkflowStatusListener {
 
     @Override
     public void onWorkflowTerminated(WorkflowModel workflow) {
-        LOGGER.info(
-                "Publishing kafka event for workflow {} on termination", workflow.getWorkflowId());
         try {
-            this.publish(workflow, this.properties.getFailedWorkflowTopic());
+            String topicName = kafkaWorkflowProducerManager.getTopicNamespace() + this.properties
+                    .getFailedWorkflowTopic();
+                LOGGER.info(
+                    "Publishing kafka event for terminated workflow {} to topic {}", workflow.getWorkflowId(),
+                            topicName);
+            this.publish(workflow, topicName);
         } catch (Exception e) {
             LOGGER.error("Failed to send workflow failed event to kafka: {}", e.getMessage());
         }
@@ -103,16 +111,12 @@ public class KafkaWorkflowStatusListener implements WorkflowStatusListener {
     }
 
     private Future<RecordMetadata> publish(WorkflowModel workflow, String topic) throws Exception {
-        Object message = workflow.getInput().get("message");
-        String topicName = kafkaWorkflowProducerManager.getTopicNamespace() + topic;
-
-        LOGGER.info("Executing kafka publish: {}", message);
         long startPublishingEpochMillis = Instant.now().toEpochMilli();
         Producer producer = kafkaWorkflowProducerManager.getProducer();
         long timeTakenToCreateProducer = Instant.now().toEpochMilli() - startPublishingEpochMillis;
         LOGGER.debug("Time taken getting producer {}", timeTakenToCreateProducer);
 
-        Object key = "";
+        Object key = workflow.getWorkflowId();
 
         Map<String, Object> headers = new HashMap<>();
         if (workflow.getCorrelationId() != null) {
@@ -132,7 +136,7 @@ public class KafkaWorkflowStatusListener implements WorkflowStatusListener {
                                                 String.valueOf(header.getValue()).getBytes()))
                         .collect(Collectors.toList());
 
-        ProducerRecord rec = new ProducerRecord(topicName, null, null, key, value, recordHeaders);
+        ProducerRecord rec = new ProducerRecord(topic, null, null, key, value, recordHeaders);
 
         Future send = producer.send(rec);
 
