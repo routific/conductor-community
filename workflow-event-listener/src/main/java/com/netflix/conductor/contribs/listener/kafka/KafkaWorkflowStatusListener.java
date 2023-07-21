@@ -60,7 +60,7 @@ public class KafkaWorkflowStatusListener implements WorkflowStatusListener {
     public void onWorkflowStarted(WorkflowModel workflow) {
         try {
             String topicName = kafkaWorkflowProducerManager.getTopicNamespace() + this.properties
-                    .getFailedWorkflowTopic();
+                    .getStartedWorkflowTopic();
             LOGGER.info("Publishing kafka event for started workflow {} to topic {}", workflow.getWorkflowId(),
                     topicName);
             this.publish(workflow, topicName);
@@ -73,7 +73,7 @@ public class KafkaWorkflowStatusListener implements WorkflowStatusListener {
     public void onWorkflowCompleted(WorkflowModel workflow) {
         try {
             String topicName = kafkaWorkflowProducerManager.getTopicNamespace() + this.properties
-                    .getFailedWorkflowTopic();
+                    .getCompletedWorkflowTopic();
             LOGGER.info(
                     "Publishing kafka event for completed workflow {} to topic {}", workflow.getWorkflowId(),
                     topicName);
