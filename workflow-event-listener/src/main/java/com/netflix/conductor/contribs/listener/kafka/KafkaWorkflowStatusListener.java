@@ -59,9 +59,12 @@ public class KafkaWorkflowStatusListener implements WorkflowStatusListener {
     @Override
     public void onWorkflowStarted(WorkflowModel workflow) {
         try {
-            String topicName = kafkaWorkflowProducerManager.getTopicNamespace() + this.properties
-                    .getStartedWorkflowTopic();
-            LOGGER.info("Publishing kafka event for started workflow {} to topic {}", workflow.getWorkflowId(),
+            String topicName =
+                    kafkaWorkflowProducerManager.getTopicNamespace()
+                            + this.properties.getStartedWorkflowTopic();
+            LOGGER.info(
+                    "Publishing kafka event for started workflow {} to topic {}",
+                    workflow.getWorkflowId(),
                     topicName);
             this.publish(workflow, topicName);
         } catch (Exception e) {
@@ -72,10 +75,12 @@ public class KafkaWorkflowStatusListener implements WorkflowStatusListener {
     @Override
     public void onWorkflowCompleted(WorkflowModel workflow) {
         try {
-            String topicName = kafkaWorkflowProducerManager.getTopicNamespace() + this.properties
-                    .getCompletedWorkflowTopic();
+            String topicName =
+                    kafkaWorkflowProducerManager.getTopicNamespace()
+                            + this.properties.getCompletedWorkflowTopic();
             LOGGER.info(
-                    "Publishing kafka event for completed workflow {} to topic {}", workflow.getWorkflowId(),
+                    "Publishing kafka event for completed workflow {} to topic {}",
+                    workflow.getWorkflowId(),
                     topicName);
             this.publish(workflow, topicName);
         } catch (Exception e) {
@@ -86,11 +91,13 @@ public class KafkaWorkflowStatusListener implements WorkflowStatusListener {
     @Override
     public void onWorkflowTerminated(WorkflowModel workflow) {
         try {
-            String topicName = kafkaWorkflowProducerManager.getTopicNamespace() + this.properties
-                    .getFailedWorkflowTopic();
-                LOGGER.info(
-                    "Publishing kafka event for terminated workflow {} to topic {}", workflow.getWorkflowId(),
-                            topicName);
+            String topicName =
+                    kafkaWorkflowProducerManager.getTopicNamespace()
+                            + this.properties.getFailedWorkflowTopic();
+            LOGGER.info(
+                    "Publishing kafka event for terminated workflow {} to topic {}",
+                    workflow.getWorkflowId(),
+                    topicName);
             this.publish(workflow, topicName);
         } catch (Exception e) {
             LOGGER.error("Failed to send workflow failed event to kafka: {}", e.getMessage());

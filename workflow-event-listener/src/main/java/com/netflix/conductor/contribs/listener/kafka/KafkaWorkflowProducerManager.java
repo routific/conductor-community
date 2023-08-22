@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 Netflix, Inc.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -17,13 +18,14 @@ import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import org.apache.kafka.common.serialization.StringSerializer;
+
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.config.SaslConfigs;
 import org.apache.kafka.common.config.SslConfigs;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,8 @@ import com.google.common.cache.RemovalListener;
 @Component
 public class KafkaWorkflowProducerManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaWorkflowProducerManager.class);
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(KafkaWorkflowProducerManager.class);
 
     private final String requestTimeoutConfig;
     private final Cache<Properties, Producer> kafkaProducerCache;
@@ -54,13 +57,15 @@ public class KafkaWorkflowProducerManager {
     private String sslTruststorePath;
     private String sslTruststorePassword;
 
-    private static final String STRING_SERIALIZER = "org.apache.kafka.common.serialization.StringSerializer";
-    private static final RemovalListener<Properties, Producer> LISTENER = notification -> {
-        if (notification.getValue() != null) {
-            notification.getValue().close();
-            LOGGER.info("Closed kafka workflow event producer.");
-        }
-    };
+    private static final String STRING_SERIALIZER =
+            "org.apache.kafka.common.serialization.StringSerializer";
+    private static final RemovalListener<Properties, Producer> LISTENER =
+            notification -> {
+                if (notification.getValue() != null) {
+                    notification.getValue().close();
+                    LOGGER.info("Closed kafka workflow event producer.");
+                }
+            };
 
     @Autowired
     public KafkaWorkflowProducerManager(
@@ -68,15 +73,18 @@ public class KafkaWorkflowProducerManager {
             @Value("${conductor.tasks.kafka-publish.maxBlock:500ms}") Duration maxBlock,
             @Value("${conductor.tasks.kafka-publish.cacheSize:5}") int cacheSize,
             @Value("${conductor.tasks.kafka-publish.cacheTime:120000ms}") Duration cacheTime,
-            @Value("${conductor.tasks.kafka-publish.bootstrapServers:localhost:9092}") String bootstrapServers,
-            @Value("${conductor.tasks.kafka-publish.securityProtocol:SASL_SSL}") String securityProtocol,
+            @Value("${conductor.tasks.kafka-publish.bootstrapServers:localhost:9092}")
+                    String bootstrapServers,
+            @Value("${conductor.tasks.kafka-publish.securityProtocol:SASL_SSL}")
+                    String securityProtocol,
             @Value("${conductor.tasks.kafka-publish.saslMechanism:PLAIN}") String saslMechanism,
             @Value("${conductor.tasks.kafka-publish.saslUsername:#{null}}") String saslUsername,
             @Value("${conductor.tasks.kafka-publish.saslPassword:#{null}}") String saslPassword,
             @Value("${conductor.tasks.kafka-publish.jaasTemplate:#{null}}") String jaasTemplate,
             @Value("${conductor.tasks.kafka-publish.topicNamespace:#{null}}") String topicNamespace,
             @Value("${conductor.tasks.kafka-publish.truststorePath:#{null}}") String truststorePath,
-            @Value("${conductor.tasks.kafka-publish.truststorePassword:#{null}}") String truststorePassword) {
+            @Value("${conductor.tasks.kafka-publish.truststorePassword:#{null}}")
+                    String truststorePassword) {
         this.requestTimeoutConfig = String.valueOf(requestTimeout.toMillis());
         this.maxBlockMsConfig = String.valueOf(maxBlock.toMillis());
         this.securityProtocol = securityProtocol;
@@ -88,11 +96,12 @@ public class KafkaWorkflowProducerManager {
         this.jaasTemplate = jaasTemplate;
         this.sslTruststorePath = truststorePath;
         this.sslTruststorePassword = truststorePassword;
-        this.kafkaProducerCache = CacheBuilder.newBuilder()
-                .removalListener(LISTENER)
-                .maximumSize(cacheSize)
-                .expireAfterAccess(cacheTime.toMillis(), TimeUnit.MILLISECONDS)
-                .build();
+        this.kafkaProducerCache =
+                CacheBuilder.newBuilder()
+                        .removalListener(LISTENER)
+                        .maximumSize(cacheSize)
+                        .expireAfterAccess(cacheTime.toMillis(), TimeUnit.MILLISECONDS)
+                        .build();
     }
 
     public Producer getProducer() {
@@ -123,7 +132,9 @@ public class KafkaWorkflowProducerManager {
         Properties configProperties = new Properties();
         configProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, this.bootstrapServers);
 
-        configProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,  StringSerializer.class.getCanonicalName());
+        configProperties.put(
+                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                StringSerializer.class.getCanonicalName());
 
         String requestTimeoutMs = requestTimeoutConfig;
         String maxBlockMs = maxBlockMsConfig;

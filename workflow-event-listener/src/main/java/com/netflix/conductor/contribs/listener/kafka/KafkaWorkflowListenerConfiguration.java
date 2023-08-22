@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 Netflix, Inc.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -11,15 +12,16 @@
  */
 package com.netflix.conductor.contribs.listener.kafka;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.netflix.conductor.core.listener.WorkflowStatusListener;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
@@ -27,7 +29,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @ConditionalOnProperty(name = "conductor.workflow-status-listener.type", havingValue = "kafka")
 public class KafkaWorkflowListenerConfiguration {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaWorkflowListenerConfiguration.class);
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(KafkaWorkflowListenerConfiguration.class);
 
     @Bean
     @Autowired
@@ -36,6 +39,7 @@ public class KafkaWorkflowListenerConfiguration {
             KafkaWorkflowListenerProperties properties,
             ObjectMapper objectMapper) {
         LOGGER.info("Kafka workflow event listener is ENABLED.");
-        return new KafkaWorkflowStatusListener(KafkaWorkflowProducerManager, properties, objectMapper);
+        return new KafkaWorkflowStatusListener(
+                KafkaWorkflowProducerManager, properties, objectMapper);
     }
 }
