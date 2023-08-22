@@ -91,6 +91,10 @@
         {
           "value": "queue_publisher",
           "description": "Use the publisher implementation which publishes a message to the underlying queue implementation upon termination or completion as the workflow status listener."
+        },
+        {
+          "value": "kafka",
+          "description": "Use the publisher implementation which publishes a message to kafka upon termination or completion as the workflow status listener."
         }
       ]
     },

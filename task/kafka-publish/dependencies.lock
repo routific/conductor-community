@@ -479,7 +479,8 @@
             "locked": "1.23.1",
             "transitive": [
                 "com.netflix.conductor:conductor-core",
-                "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi"
+                "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi",
+                "io.sentry:sentry-opentelemetry-core"
             ]
         },
         "io.opentelemetry:opentelemetry-sdk-common": {
@@ -530,6 +531,18 @@
         },
         "io.reactivex:rxjava": {
             "locked": "1.2.2",
+            "transitive": [
+                "com.netflix.conductor:conductor-core"
+            ]
+        },
+        "io.sentry:sentry": {
+            "locked": "6.14.0",
+            "transitive": [
+                "com.netflix.conductor:conductor-core"
+            ]
+        },
+        "io.sentry:sentry-opentelemetry-core": {
+            "locked": "6.14.0",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
@@ -2318,6 +2331,8 @@
                 "io.grpc:grpc-protobuf-lite",
                 "io.grpc:grpc-services",
                 "io.grpc:grpc-stub",
+                "io.orkes.queues:orkes-conductor-queues",
+                "io.orkes.queues:orkes-redis-queues",
                 "io.swagger:swagger-core",
                 "org.mock-server:mockserver-client-java",
                 "org.mock-server:mockserver-core"
@@ -2474,11 +2489,12 @@
                 "com.netflix.conductor:conductor-redis-persistence",
                 "com.netflix.conductor:conductor-rest",
                 "com.netflix.conductor:conductor-server",
-                "com.netflix.conductor:test-util"
+                "com.netflix.conductor:test-util",
+                "io.orkes.queues:orkes-conductor-queues"
             ]
         },
         "com.netflix.conductor:conductor-es6-persistence": {
-            "locked": "3.13.3",
+            "locked": "3.13.7",
             "transitive": [
                 "com.netflix.conductor:conductor-server"
             ]
@@ -2905,6 +2921,7 @@
         "io.micrometer:micrometer-core": {
             "locked": "1.8.5",
             "transitive": [
+                "io.orkes.queues:orkes-conductor-queues",
                 "org.springframework.boot:spring-boot-starter-actuator"
             ]
         },
@@ -3099,7 +3116,8 @@
             "locked": "1.23.1",
             "transitive": [
                 "com.netflix.conductor:conductor-core",
-                "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi"
+                "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi",
+                "io.sentry:sentry-opentelemetry-core"
             ]
         },
         "io.opentelemetry:opentelemetry-sdk-common": {
@@ -3148,6 +3166,18 @@
                 "io.opentelemetry:opentelemetry-sdk-trace"
             ]
         },
+        "io.orkes.queues:orkes-conductor-queues": {
+            "locked": "1.0.3",
+            "transitive": [
+                "com.netflix.conductor:conductor-server"
+            ]
+        },
+        "io.orkes.queues:orkes-redis-queues": {
+            "locked": "1.0.3",
+            "transitive": [
+                "io.orkes.queues:orkes-conductor-queues"
+            ]
+        },
         "io.perfmark:perfmark-api": {
             "locked": "0.25.0",
             "transitive": [
@@ -3171,6 +3201,18 @@
             "locked": "1.2.2",
             "transitive": [
                 "com.netflix.conductor:conductor-awssqs-event-queue",
+                "com.netflix.conductor:conductor-core"
+            ]
+        },
+        "io.sentry:sentry": {
+            "locked": "6.14.0",
+            "transitive": [
+                "com.netflix.conductor:conductor-core"
+            ]
+        },
+        "io.sentry:sentry-opentelemetry-core": {
+            "locked": "6.14.0",
+            "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
         },
@@ -3266,6 +3308,7 @@
         "jakarta.annotation:jakarta.annotation-api": {
             "locked": "1.3.5",
             "transitive": [
+                "org.glassfish.jersey.core:jersey-common",
                 "org.springframework.boot:spring-boot-starter",
                 "org.springframework.boot:spring-boot-starter-tomcat"
             ]
@@ -3275,6 +3318,12 @@
             "transitive": [
                 "io.swagger.core.v3:swagger-core",
                 "org.hibernate.validator:hibernate-validator"
+            ]
+        },
+        "jakarta.ws.rs:jakarta.ws.rs-api": {
+            "locked": "2.1.6",
+            "transitive": [
+                "org.glassfish.jersey.core:jersey-common"
             ]
         },
         "jakarta.xml.bind:jakarta.xml.bind-api": {
@@ -3317,6 +3366,12 @@
             "locked": "2.5",
             "transitive": [
                 "com.netflix.netflix-commons:netflix-infix"
+            ]
+        },
+        "javax.ws.rs:javax.ws.rs-api": {
+            "locked": "2.1.1",
+            "transitive": [
+                "com.netflix.conductor:conductor-client"
             ]
         },
         "javax.ws.rs:jsr311-api": {
@@ -3475,6 +3530,8 @@
                 "com.netflix.dyno:dyno-contrib",
                 "com.netflix.dyno:dyno-core",
                 "com.networknt:json-schema-validator",
+                "io.orkes.queues:orkes-conductor-queues",
+                "io.orkes.queues:orkes-redis-queues",
                 "io.swagger.core.v3:swagger-core",
                 "io.swagger:swagger-core",
                 "org.apache.velocity:velocity-engine-core",
@@ -3561,6 +3618,8 @@
                 "com.netflix.conductor:conductor-rest",
                 "com.netflix.conductor:conductor-server",
                 "com.netflix.conductor:test-util",
+                "io.orkes.queues:orkes-conductor-queues",
+                "io.orkes.queues:orkes-redis-queues",
                 "org.apache.logging.log4j:log4j-core",
                 "org.apache.logging.log4j:log4j-jul",
                 "org.apache.logging.log4j:log4j-slf4j-impl",
@@ -3590,6 +3649,8 @@
                 "com.netflix.conductor:conductor-rest",
                 "com.netflix.conductor:conductor-server",
                 "com.netflix.conductor:test-util",
+                "io.orkes.queues:orkes-conductor-queues",
+                "io.orkes.queues:orkes-redis-queues",
                 "org.apache.logging.log4j:log4j-slf4j-impl",
                 "org.apache.logging.log4j:log4j-web",
                 "org.springframework.boot:spring-boot-starter-log4j2"
@@ -3617,6 +3678,8 @@
                 "com.netflix.conductor:conductor-rest",
                 "com.netflix.conductor:conductor-server",
                 "com.netflix.conductor:test-util",
+                "io.orkes.queues:orkes-conductor-queues",
+                "io.orkes.queues:orkes-redis-queues",
                 "org.springframework.boot:spring-boot-starter-log4j2"
             ]
         },
@@ -3642,6 +3705,7 @@
                 "com.netflix.conductor:conductor-rest",
                 "com.netflix.conductor:conductor-server",
                 "com.netflix.conductor:test-util",
+                "io.orkes.queues:orkes-conductor-queues",
                 "org.springframework.boot:spring-boot-starter-log4j2"
             ]
         },
@@ -3666,7 +3730,9 @@
                 "com.netflix.conductor:conductor-redis-persistence",
                 "com.netflix.conductor:conductor-rest",
                 "com.netflix.conductor:conductor-server",
-                "com.netflix.conductor:test-util"
+                "com.netflix.conductor:test-util",
+                "io.orkes.queues:orkes-conductor-queues",
+                "io.orkes.queues:orkes-redis-queues"
             ]
         },
         "org.apache.lucene:lucene-analyzers-common": {
@@ -4131,6 +4197,18 @@
                 "org.elasticsearch:elasticsearch"
             ]
         },
+        "org.glassfish.hk2.external:jakarta.inject": {
+            "locked": "2.6.1",
+            "transitive": [
+                "org.glassfish.jersey.core:jersey-common"
+            ]
+        },
+        "org.glassfish.hk2:osgi-resource-locator": {
+            "locked": "1.0.3",
+            "transitive": [
+                "org.glassfish.jersey.core:jersey-common"
+            ]
+        },
         "org.glassfish.jaxb:jaxb-runtime": {
             "locked": "2.3.6",
             "transitive": [
@@ -4141,6 +4219,12 @@
             "locked": "2.3.6",
             "transitive": [
                 "org.glassfish.jaxb:jaxb-runtime"
+            ]
+        },
+        "org.glassfish.jersey.core:jersey-common": {
+            "locked": "2.35",
+            "transitive": [
+                "com.netflix.conductor:conductor-client"
             ]
         },
         "org.hamcrest:hamcrest": {
@@ -4440,6 +4524,7 @@
                 "com.networknt:json-schema-validator",
                 "com.rabbitmq:amqp-client",
                 "io.dropwizard.metrics:metrics-core",
+                "io.orkes.queues:orkes-conductor-queues",
                 "io.swagger.core.v3:swagger-core",
                 "io.swagger:swagger-core",
                 "io.swagger:swagger-models",
@@ -4523,6 +4608,7 @@
             "locked": "2.6.7",
             "transitive": [
                 "com.netflix.conductor:conductor-server",
+                "io.orkes.queues:orkes-conductor-queues",
                 "org.springframework.boot:spring-boot-starter-actuator",
                 "org.springframework.boot:spring-boot-starter-json",
                 "org.springframework.boot:spring-boot-starter-test",
@@ -4766,6 +4852,8 @@
                 "com.netflix.conductor:conductor-redis-persistence",
                 "com.netflix.conductor:test-util",
                 "com.netflix.dyno:dyno-jedis",
+                "io.orkes.queues:orkes-conductor-queues",
+                "io.orkes.queues:orkes-redis-queues",
                 "org.rarefiedredis.redis:redis-java"
             ]
         },

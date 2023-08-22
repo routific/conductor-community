@@ -453,6 +453,18 @@
                 "com.netflix.conductor:conductor-core"
             ]
         },
+        "com.squareup.okhttp3:okhttp": {
+            "locked": "3.14.9",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp-common"
+            ]
+        },
+        "com.squareup.okio:okio": {
+            "locked": "1.17.2",
+            "transitive": [
+                "com.squareup.okhttp3:okhttp"
+            ]
+        },
         "commons-io:commons-io": {
             "locked": "2.7",
             "transitive": [
@@ -475,6 +487,110 @@
         "io.micrometer:micrometer-registry-prometheus": {
             "locked": "1.6.2"
         },
+        "io.opentelemetry:opentelemetry-api": {
+            "locked": "1.23.1",
+            "transitive": [
+                "com.netflix.conductor:conductor-core",
+                "io.opentelemetry:opentelemetry-api-events",
+                "io.opentelemetry:opentelemetry-api-logs",
+                "io.opentelemetry:opentelemetry-exporter-common",
+                "io.opentelemetry:opentelemetry-sdk",
+                "io.opentelemetry:opentelemetry-sdk-common",
+                "io.opentelemetry:opentelemetry-sdk-metrics",
+                "io.opentelemetry:opentelemetry-sdk-trace",
+                "io.opentelemetry:opentelemetry-semconv"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-api-events": {
+            "locked": "1.23.1-alpha",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-sdk-logs"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-api-logs": {
+            "locked": "1.23.1-alpha",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-sdk-logs"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-context": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-api"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-exporter-common": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp-common"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-exporter-otlp": {
+            "locked": "1.23.1",
+            "transitive": [
+                "com.netflix.conductor:conductor-core"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-exporter-otlp-common": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk": {
+            "locked": "1.23.1",
+            "transitive": [
+                "com.netflix.conductor:conductor-core",
+                "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi",
+                "io.sentry:sentry-opentelemetry-core"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk-common": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-sdk",
+                "io.opentelemetry:opentelemetry-sdk-logs",
+                "io.opentelemetry:opentelemetry-sdk-metrics",
+                "io.opentelemetry:opentelemetry-sdk-trace"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp",
+                "io.opentelemetry:opentelemetry-exporter-otlp-common"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk-logs": {
+            "locked": "1.23.1-alpha",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-sdk",
+                "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk-metrics": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp",
+                "io.opentelemetry:opentelemetry-sdk",
+                "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk-trace": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp",
+                "io.opentelemetry:opentelemetry-sdk"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-semconv": {
+            "locked": "1.23.1-alpha",
+            "transitive": [
+                "com.netflix.conductor:conductor-core",
+                "io.opentelemetry:opentelemetry-sdk-common",
+                "io.opentelemetry:opentelemetry-sdk-trace"
+            ]
+        },
         "io.prometheus:simpleclient": {
             "locked": "0.9.0",
             "transitive": [
@@ -489,6 +605,18 @@
         },
         "io.reactivex:rxjava": {
             "locked": "1.2.2",
+            "transitive": [
+                "com.netflix.conductor:conductor-core"
+            ]
+        },
+        "io.sentry:sentry": {
+            "locked": "6.14.0",
+            "transitive": [
+                "com.netflix.conductor:conductor-core"
+            ]
+        },
+        "io.sentry:sentry-opentelemetry-core": {
+            "locked": "6.14.0",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
@@ -1903,6 +2031,18 @@
                 "com.netflix.conductor:conductor-core"
             ]
         },
+        "com.squareup.okhttp3:okhttp": {
+            "locked": "3.14.9",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp-common"
+            ]
+        },
+        "com.squareup.okio:okio": {
+            "locked": "1.17.2",
+            "transitive": [
+                "com.squareup.okhttp3:okhttp"
+            ]
+        },
         "com.sun.activation:jakarta.activation": {
             "locked": "1.2.2",
             "transitive": [
@@ -2052,6 +2192,110 @@
                 "org.mock-server:mockserver-core"
             ]
         },
+        "io.opentelemetry:opentelemetry-api": {
+            "locked": "1.23.1",
+            "transitive": [
+                "com.netflix.conductor:conductor-core",
+                "io.opentelemetry:opentelemetry-api-events",
+                "io.opentelemetry:opentelemetry-api-logs",
+                "io.opentelemetry:opentelemetry-exporter-common",
+                "io.opentelemetry:opentelemetry-sdk",
+                "io.opentelemetry:opentelemetry-sdk-common",
+                "io.opentelemetry:opentelemetry-sdk-metrics",
+                "io.opentelemetry:opentelemetry-sdk-trace",
+                "io.opentelemetry:opentelemetry-semconv"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-api-events": {
+            "locked": "1.23.1-alpha",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-sdk-logs"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-api-logs": {
+            "locked": "1.23.1-alpha",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-sdk-logs"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-context": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-api"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-exporter-common": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp-common"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-exporter-otlp": {
+            "locked": "1.23.1",
+            "transitive": [
+                "com.netflix.conductor:conductor-core"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-exporter-otlp-common": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk": {
+            "locked": "1.23.1",
+            "transitive": [
+                "com.netflix.conductor:conductor-core",
+                "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi",
+                "io.sentry:sentry-opentelemetry-core"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk-common": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-sdk",
+                "io.opentelemetry:opentelemetry-sdk-logs",
+                "io.opentelemetry:opentelemetry-sdk-metrics",
+                "io.opentelemetry:opentelemetry-sdk-trace"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp",
+                "io.opentelemetry:opentelemetry-exporter-otlp-common"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk-logs": {
+            "locked": "1.23.1-alpha",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-sdk",
+                "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk-metrics": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp",
+                "io.opentelemetry:opentelemetry-sdk",
+                "io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-sdk-trace": {
+            "locked": "1.23.1",
+            "transitive": [
+                "io.opentelemetry:opentelemetry-exporter-otlp",
+                "io.opentelemetry:opentelemetry-sdk"
+            ]
+        },
+        "io.opentelemetry:opentelemetry-semconv": {
+            "locked": "1.23.1-alpha",
+            "transitive": [
+                "com.netflix.conductor:conductor-core",
+                "io.opentelemetry:opentelemetry-sdk-common",
+                "io.opentelemetry:opentelemetry-sdk-trace"
+            ]
+        },
         "io.prometheus:simpleclient": {
             "locked": "0.9.0",
             "transitive": [
@@ -2066,6 +2310,18 @@
         },
         "io.reactivex:rxjava": {
             "locked": "1.2.2",
+            "transitive": [
+                "com.netflix.conductor:conductor-core"
+            ]
+        },
+        "io.sentry:sentry": {
+            "locked": "6.14.0",
+            "transitive": [
+                "com.netflix.conductor:conductor-core"
+            ]
+        },
+        "io.sentry:sentry-opentelemetry-core": {
+            "locked": "6.14.0",
             "transitive": [
                 "com.netflix.conductor:conductor-core"
             ]
