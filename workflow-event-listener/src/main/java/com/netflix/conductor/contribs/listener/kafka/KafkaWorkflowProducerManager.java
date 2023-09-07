@@ -25,7 +25,6 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.config.SaslConfigs;
 import org.apache.kafka.common.config.SslConfigs;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +105,12 @@ public class KafkaWorkflowProducerManager {
 
     public Producer getProducer() {
         Properties configProperties = getProducerProperties();
-        return getFromCache(configProperties, () -> new KafkaProducer(configProperties));
+        return getFromCache(
+                configProperties,
+                () -> {
+                    Thread.currentThread().setContextClassLoader(null);
+                    return new KafkaProducer(configProperties);
+                });
     }
 
     public String getTopicNamespace() {
@@ -132,9 +136,7 @@ public class KafkaWorkflowProducerManager {
         Properties configProperties = new Properties();
         configProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, this.bootstrapServers);
 
-        configProperties.put(
-                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class.getCanonicalName());
+        configProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, STRING_SERIALIZER);
 
         String requestTimeoutMs = requestTimeoutConfig;
         String maxBlockMs = maxBlockMsConfig;

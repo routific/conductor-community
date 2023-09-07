@@ -23,7 +23,6 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.header.Header;
 import org.apache.kafka.common.header.internals.RecordHeader;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,8 +153,6 @@ public class KafkaWorkflowStatusListener implements WorkflowStatusListener {
     }
 
     public static class Input {
-
-        public static final String STRING_SERIALIZER = StringSerializer.class.getCanonicalName();
         private Map<String, Object> headers = new HashMap<>();
         private Object key;
         private Object value;
