@@ -12,7 +12,6 @@
 package com.netflix.conductor.contribs.tasks.kafka;
 
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.Callable;
