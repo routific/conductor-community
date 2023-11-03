@@ -12,6 +12,7 @@
 package com.netflix.conductor.contribs.tasks.kafka;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.Callable;
@@ -100,7 +101,20 @@ public class KafkaProducerManager {
 
     public Producer getProducer(KafkaPublishTask.Input input) {
         Properties configProperties = getProducerProperties(input);
-        return getFromCache(configProperties, () -> new KafkaProducer(configProperties));
+        return getFromCache(configProperties, () -> {
+            ClassLoader savedClassLoader = Thread.currentThread().getContextClassLoader();
+            try {
+                // https://issues.apache.org/jira/browse/KAFKA-3218
+                // Set thread's class loader to be the same as KafkaProducer class so that
+                // fully qualified class names can be resolved during runtime.
+                Thread.currentThread()
+                        .setContextClassLoader(KafkaProducer.class.getClassLoader());
+
+                return new KafkaProducer(configProperties);
+            } finally {
+                Thread.currentThread().setContextClassLoader(savedClassLoader);
+            }
+        });
     }
 
     public String getTopicNamespace() {
