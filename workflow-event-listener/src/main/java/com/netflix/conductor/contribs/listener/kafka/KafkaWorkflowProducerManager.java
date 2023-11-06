@@ -25,6 +25,7 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.config.SaslConfigs;
 import org.apache.kafka.common.config.SslConfigs;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,8 +109,18 @@ public class KafkaWorkflowProducerManager {
         return getFromCache(
                 configProperties,
                 () -> {
-                    Thread.currentThread().setContextClassLoader(null);
-                    return new KafkaProducer(configProperties);
+                    ClassLoader savedClassLoader = Thread.currentThread().getContextClassLoader();
+                    try {
+                        // https://issues.apache.org/jira/browse/KAFKA-3218
+                        // Set thread's class loader to be the same as KafkaProducer class so that
+                        // fully qualified class names can be resolved during runtime.
+                        Thread.currentThread()
+                                .setContextClassLoader(KafkaProducer.class.getClassLoader());
+
+                        return new KafkaProducer(configProperties);
+                    } finally {
+                        Thread.currentThread().setContextClassLoader(savedClassLoader);
+                    }
                 });
     }
 
@@ -132,11 +143,12 @@ public class KafkaWorkflowProducerManager {
 
     @VisibleForTesting
     Properties getProducerProperties() {
-
         Properties configProperties = new Properties();
         configProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, this.bootstrapServers);
 
-        configProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, STRING_SERIALIZER);
+        configProperties.put(
+                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                StringSerializer.class.getCanonicalName());
 
         String requestTimeoutMs = requestTimeoutConfig;
         String maxBlockMs = maxBlockMsConfig;
