@@ -40,11 +40,11 @@ public class PostgresQueueDAO extends PostgresBaseDAO implements QueueDAO {
 
         Executors.newSingleThreadScheduledExecutor()
                 .scheduleAtFixedRate(
-                        this::processAllUnacks,
+                        this::safeProcessAllUnacks,
                         UNACK_SCHEDULE_MS,
                         UNACK_SCHEDULE_MS,
                         TimeUnit.MILLISECONDS);
-        logger.debug(PostgresQueueDAO.class.getName() + " is ready to serve");
+        logger.info(PostgresQueueDAO.class.getName() + " is ready to serve");
     }
 
     @Override
@@ -234,13 +234,21 @@ public class PostgresQueueDAO extends PostgresBaseDAO implements QueueDAO {
                                 }));
     }
 
+    private void safeProcessAllUnacks() {
+        try {
+            this.processAllUnacks();
+        } catch (Exception e) {
+            logger.error("processAllUnacks error", e);
+        }
+    }
+
     /**
      * Un-pop all un-acknowledged messages for all queues.
      *
      * @since 1.11.6
      */
     public void processAllUnacks() {
-        logger.trace("processAllUnacks started");
+        logger.info("processAllUnacks started");
 
         getWithRetriedTransactions(
                 tx -> {
@@ -306,7 +314,7 @@ public class PostgresQueueDAO extends PostgresBaseDAO implements QueueDAO {
                     }
 
                     if (totalUnacked > 0) {
-                        logger.debug("Unacked {} messages from all queues", totalUnacked);
+                        logger.info("Unacked {} messages from all queues", totalUnacked);
                     }
                     return totalUnacked;
                 });
