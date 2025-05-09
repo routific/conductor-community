@@ -31,7 +31,7 @@ public class KafkaTransactionRecord {
   private TracingProvider tracingProvider;
   private Tracing tracing;
 
-  private static final java.util.logging.Logger logger = LoggerFactory.getLogger(KafkaTransactionRecord.class);
+  private static final Logger logger = LoggerFactory.getLogger(KafkaTransactionRecord.class);
 
   public KafkaTransactionRecord(ConsumerRecord<String, String> record, TracingProvider tracingProvider) {
     this.record = record;
